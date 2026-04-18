@@ -142,6 +142,27 @@ export function getPackagingCaps(employer: EmployerType): {
   }
 }
 
+// ---------- Zone tax offset (remote / isolated area residents) ----------
+
+// ATO zone tax offset base amounts (FY25-26 — unchanged for many years).
+// Source: ato.gov.au/.../zone-tax-offset
+// The base applies to all eligible residents. Modifiers (dependents, single
+// parent, invalid carer offset, remote area allowance) can increase or reduce
+// the amount — those aren't computed here; we surface them descriptively.
+
+export type ZoneTaxResidency = "none" | "zone-a" | "zone-b" | "special-area";
+
+export const ZONE_OFFSET_BASE_AMOUNTS: Record<ZoneTaxResidency, number> = {
+  none: 0,
+  "zone-a": 338,
+  "zone-b": 57,
+  "special-area": 1_173,
+};
+
+export function getZoneOffsetBase(zone: ZoneTaxResidency): number {
+  return ZONE_OFFSET_BASE_AMOUNTS[zone];
+}
+
 // ---------- HECS / STSL repayment schedule (2025-26) ----------
 
 export type HecsBracket = { from: number; upTo: number; rate: number };

@@ -7,6 +7,7 @@ import { SuperDetail } from "./corridors/SuperDetail";
 import { FhssDetail } from "./corridors/FhssDetail";
 import { DeductionsDetail } from "./corridors/DeductionsDetail";
 import { HecsDetail } from "./corridors/HecsDetail";
+import { ZoneOffsetDetail } from "./corridors/ZoneOffsetDetail";
 
 // MLS detail pulls in Recharts — split it out so the rest of the app doesn't pay for it.
 const MlsDetail = lazy(() =>
@@ -50,6 +51,8 @@ export function CorridorDetail() {
       return <DeductionsDetail />;
     case "hecs":
       return <HecsDetail />;
+    case "zone-offset":
+      return <ZoneOffsetDetail />;
     default:
       return <Navigate to="/map" replace />;
   }

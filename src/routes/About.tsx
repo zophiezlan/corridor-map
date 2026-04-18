@@ -68,6 +68,12 @@ export function About() {
           situation, treat the numbers as directional and confirm with payroll
           or an accountant before acting.
         </p>
+        <p>
+          Regional workers &mdash; the zone tax offset corridor covers the base
+          amount for each ATO zone. Dependent and remote-allowance modifiers are
+          surfaced descriptively rather than computed, because the
+          notional-offset math varies with household composition.
+        </p>
 
         <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mt-6">
           Privacy

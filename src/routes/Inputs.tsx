@@ -4,7 +4,7 @@ import { Field, NumberInput, Select, Toggle } from "../components/Fields";
 import { Term } from "../components/Glossary";
 import { useDocumentTitle } from "../components/DocumentTitle";
 import { useInputs, DEFAULT_INPUTS } from "../state/useInputs";
-import type { EmployerType } from "../calc/constants";
+import type { EmployerType, ZoneTaxResidency } from "../calc/constants";
 import type {
   PremiumPeriod,
   PropertyGoal,
@@ -21,6 +21,25 @@ const EMPLOYER_OPTIONS: Array<{ value: EmployerType; label: string }> = [
   { value: "Rebatable NFP", label: "Rebatable NFP (no FBT-exempt packaging)" },
   { value: "For-profit", label: "For-profit employer" },
   { value: "Unknown", label: "I'm not sure" },
+];
+
+const ZONE_RESIDENCY_OPTIONS: Array<{
+  value: ZoneTaxResidency;
+  label: string;
+}> = [
+  { value: "none", label: "No — I live in a metro or non-designated area" },
+  {
+    value: "zone-a",
+    label: "Zone A (most remote regions of NT / WA / QLD / SA)",
+  },
+  {
+    value: "zone-b",
+    label: "Zone B (outer regional — next band out from Zone A)",
+  },
+  {
+    value: "special-area",
+    label: "Special area (a pocket inside Zone A or B with the higher rate)",
+  },
 ];
 
 const PROPERTY_GOAL_OPTIONS: Array<{ value: PropertyGoal; label: string }> = [
@@ -382,6 +401,43 @@ export function Inputs() {
               )}
             </Field>
           )}
+        </section>
+
+        <section className="space-y-5">
+          <div>
+            <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+              Residence
+            </h2>
+            <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+              If your usual home is in a designated remote or isolated area,
+              there&rsquo;s a zone tax offset worth claiming. Boundaries are
+              narrower than you&rsquo;d guess &mdash; check the{" "}
+              <a
+                href="https://www.ato.gov.au/calculators-and-tools/tax-offsets-australian-zones"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 decoration-stone-300 hover:decoration-stone-900 dark:decoration-stone-600 dark:hover:decoration-stone-100"
+              >
+                ATO zone list
+              </a>{" "}
+              if unsure.
+            </p>
+          </div>
+
+          <Field
+            label="Do you live in a designated tax zone?"
+            hint="Based on your usual place of residence, not where you work. FIFO workers don't qualify."
+          >
+            {(id, describedBy) => (
+              <Select
+                id={id}
+                ariaDescribedBy={describedBy}
+                value={inputs.zoneTaxResidency}
+                onChange={(v) => setInput("zoneTaxResidency", v)}
+                options={ZONE_RESIDENCY_OPTIONS}
+              />
+            )}
+          </Field>
         </section>
 
         <section className="space-y-5">

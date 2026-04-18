@@ -14,7 +14,7 @@ Corridor Map is a thinking tool for a specific cohort — workers at Public Bene
 
 ## What it does
 
-Seven corridors, each with its own detail page:
+Eight corridors, each with its own detail page:
 
 | Corridor                       | What it shows                                                                                                         |
 | ------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
@@ -25,6 +25,7 @@ Seven corridors, each with its own detail page:
 | **First Home Super Saver**     | Structured context and decision prompts — not a calculator (release-timing rules make precision misleading).          |
 | **Work-related Deductions**    | Checklist of commonly under-claimed categories for sector workers.                                                    |
 | **HECS / STSL**                | Your repayment income, marginal repayment rate, and how packaging interacts with the threshold.                       |
+| **Zone Tax Offset**            | Base offset for residents of designated remote or isolated zones — a line on your tax return that's easy to miss.     |
 
 Each detail page follows the same frame:
 
@@ -81,7 +82,7 @@ Open `http://localhost:5173`.
 npm run dev           # Vite dev server (HMR)
 npm run build         # tsc -b + vite build
 npm run preview       # serve the built dist locally
-npm run test          # vitest run — 71 passing tests
+npm run test          # vitest run — 75 passing tests
 npm run test:watch    # vitest in watch mode
 npm run typecheck     # tsc -b --noEmit
 npm run lint          # eslint . --fix
@@ -129,7 +130,8 @@ src/
         ├── SuperDetail.tsx
         ├── FhssDetail.tsx
         ├── DeductionsDetail.tsx
-        └── HecsDetail.tsx
+        ├── HecsDetail.tsx
+        └── ZoneOffsetDetail.tsx
 ```
 
 ### Key architectural choices
@@ -158,7 +160,7 @@ Annual update checklist is in [corridor-map-spec.md §13](corridor-map-spec.md#1
 npm run test
 ```
 
-71 passing tests across four suites:
+75 passing tests across four suites:
 
 - `calculations.test.ts` — tax, Medicare, MLS, HECS, PHI, super
 - `corridors.test.ts` — corridor summary generators (green / amber / red / grey)
@@ -194,7 +196,7 @@ If you spot a number that disagrees with the ATO, open an issue with the ATO ref
 ## Authoritative References
 
 - [ATO](https://www.ato.gov.au)
-- [PrivateHealth.gov.au](https://www.privatehealth.gov.au).
+- [PrivateHealth.gov.au](https://www.privatehealth.gov.au)
 
 ---
 

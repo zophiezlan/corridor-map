@@ -1,4 +1,4 @@
-import type { EmployerType, MlsTier } from "./constants";
+import type { EmployerType, MlsTier, ZoneTaxResidency } from "./constants";
 
 export type PropertyGoal = "none" | "within-12m" | "1-3y" | "3y-plus";
 
@@ -43,6 +43,9 @@ export type UserInputs = {
   hasHECS: boolean;
   hecsBalance: number | null;
 
+  // Residence (zone tax offset — remote/isolated area residents)
+  zoneTaxResidency: ZoneTaxResidency;
+
   // Goals
   propertyGoal: PropertyGoal;
 };
@@ -84,6 +87,9 @@ export type DerivedValues = {
   // HECS
   hecsMarginalRate: number;
   hecsRepaymentAnnual: number;
+
+  // Zone tax offset (base only — modifiers surfaced descriptively)
+  zoneOffsetBase: number;
 };
 
 export type CorridorStatus = "green" | "amber" | "red" | "grey";

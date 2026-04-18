@@ -25,6 +25,7 @@ const KEY_MAP: Record<string, keyof UserInputs> = {
   rl: "netRentalPropertyLosses",
   h: "hasHECS",
   hb: "hecsBalance",
+  zr: "zoneTaxResidency",
   pg: "propertyGoal",
 };
 

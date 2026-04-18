@@ -40,6 +40,7 @@ function baseInputs(overrides: Partial<UserInputs> = {}): UserInputs {
     netRentalPropertyLosses: 0,
     hasHECS: false,
     hecsBalance: null,
+    zoneTaxResidency: "none",
     propertyGoal: "none",
     ...overrides,
   };

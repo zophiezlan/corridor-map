@@ -40,6 +40,8 @@ const DEFINITIONS: Record<string, string> = {
     "A multiplier (1.8868 for FBT-exempt benefits) that converts the real dollar value of packaged benefits into the RFBA figure on your payment summary.",
   deduction:
     "An expense the ATO allows you to subtract from your taxable income. Saves you your marginal rate on each dollar deducted (e.g. ~32c per $1 at $90k).",
+  "zone tax offset":
+    "A lump-sum tax offset for residents of designated remote or isolated areas of Australia. Base amount depends on the zone (A / B / special area). Claimed on your tax return.",
 };
 
 type Props = {

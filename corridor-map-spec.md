@@ -128,6 +128,9 @@ type UserInputs = {
   hasHECS: boolean;
   hecsBalance: number | null;
 
+  // Residence (zone tax offset)
+  zoneTaxResidency: "none" | "zone-a" | "zone-b" | "special-area";
+
   // Goals (affect corridor status thresholds, not raw math)
   propertyGoal: "none" | "within-12m" | "1-3y" | "3y-plus";
 };
@@ -135,7 +138,7 @@ type UserInputs = {
 
 ### Derived ([`DerivedValues`](src/calc/types.ts))
 
-Computed from inputs by `deriveValues()` in a single pass. Covers taxable income, RFBA, MLS income, HECS repayment income, MLS/rebate tier, marginal tax rates (three flavours: income-only, +Medicare, +STSL), packaging utilisation, super cap remaining, PHI net cost, MLS break-even premium, HECS marginal rate and annual repayment.
+Computed from inputs by `deriveValues()` in a single pass. Covers taxable income, RFBA, MLS income, HECS repayment income, MLS/rebate tier, marginal tax rates (three flavours: income-only, +Medicare, +STSL), packaging utilisation, super cap remaining, PHI net cost, MLS break-even premium, HECS marginal rate and annual repayment, and the zone offset base amount.
 
 ### Constants ([`src/calc/constants.ts`](src/calc/constants.ts))
 
@@ -204,6 +207,17 @@ Depends on `privateHealthRebateTreatment`:
 
 The MLS corridor surfaces the **break-even net annual cost** — the premium under which buying cover is cheaper than paying the MLS.
 
+### Zone tax offset
+
+Simple lookup against `ZONE_OFFSET_BASE_AMOUNTS`:
+
+- Special area: $1,173
+- Zone A: $338
+- Zone B: $57
+- None: $0
+
+Only the base amount is computed. Modifiers (dependents, single parent, invalid-carer offset, remote area allowance) are surfaced descriptively on the detail page — the notional-offset math depends on household composition that V1 doesn't collect. The ATO retired its standalone calculator from 2024-25 onwards; the offset is now claimed at _Zone or overseas forces_ on the tax return.
+
 ---
 
 ## 7. Corridors (all shipped)
@@ -217,6 +231,7 @@ The MLS corridor surfaces the **break-even net annual cost** — the premium und
 | 5   | First Home Super Saver (FHSS)    | `/corridor/fhss`              | Descriptive | Context + decision prompts     |
 | 6   | Work-related Deductions          | `/corridor/deductions`        | Descriptive | Checklist of common categories |
 | 7   | HECS / STSL                      | `/corridor/hecs`              | Computed    | Marginal repayment % + $/yr    |
+| 8   | Zone Tax Offset                  | `/corridor/zone-offset`       | Computed    | Base offset for remote zones   |
 
 **Computed** corridors produce numbers. **Descriptive** corridors produce structured context and decision prompts only — deductions and FHSS are judgement calls, and showing a number would imply precision the tool can't honour.
 
@@ -289,7 +304,7 @@ npm run fix           # format + lint + typecheck + test
 
 ### Test coverage
 
-Four suites, 71 passing tests:
+Four suites, 75 passing tests:
 
 - `src/calc/calculations.test.ts` — pure math (tax, Medicare, MLS, HECS, PHI, super)
 - `src/calc/corridors.test.ts` — corridor summary generators (status + headline + insight logic)

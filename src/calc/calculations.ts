@@ -10,6 +10,7 @@ import {
   getAgeBasedDiscount,
   getCurrentPhiRebateRates,
   getPackagingCaps,
+  getZoneOffsetBase,
 } from "./constants";
 import type { MlsTier } from "./constants";
 import type { DerivedValues, UserInputs } from "./types";
@@ -206,6 +207,7 @@ export function deriveValues(
     breakEvenNetCostAnnual,
     hecsMarginalRate: hecsRate,
     hecsRepaymentAnnual: Math.round(hecsRepayment),
+    zoneOffsetBase: getZoneOffsetBase(inputs.zoneTaxResidency),
   };
 }
 

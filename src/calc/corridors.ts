@@ -327,6 +327,44 @@ export function hecsCorridor(
   };
 }
 
+// ---------- Zone tax offset ----------
+
+export function zoneOffsetCorridor(
+  inputs: UserInputs,
+  derived: DerivedValues,
+): CorridorCardSummary {
+  if (inputs.zoneTaxResidency === "none") {
+    return {
+      id: "zone-offset",
+      name: "Zone Tax Offset",
+      status: "grey",
+      headline: "Not applicable",
+      insight:
+        "For residents of designated remote or isolated zones. Flag this if you live regional — boundaries are narrower than you'd guess.",
+      applicable: false,
+    };
+  }
+
+  const zoneLabel: Record<
+    Exclude<UserInputs["zoneTaxResidency"], "none">,
+    string
+  > = {
+    "zone-a": "Zone A",
+    "zone-b": "Zone B",
+    "special-area": "Special area",
+  };
+
+  return {
+    id: "zone-offset",
+    name: "Zone Tax Offset",
+    status: "amber",
+    headline: `${formatAUD(derived.zoneOffsetBase)} base in ${zoneLabel[inputs.zoneTaxResidency]}`,
+    insight:
+      "Claim on your tax return under 'Zone or overseas forces'. The amount can be higher if you have dependents, a remote allowance, or qualify for an invalid-carer offset.",
+    applicable: true,
+  };
+}
+
 // ---------- All corridors, in display order ----------
 
 export function allCorridors(
@@ -341,5 +379,6 @@ export function allCorridors(
     fhssCorridor(inputs),
     deductionsCorridor(),
     hecsCorridor(inputs, derived),
+    zoneOffsetCorridor(inputs, derived),
   ];
 }

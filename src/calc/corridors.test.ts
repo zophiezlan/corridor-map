@@ -10,6 +10,7 @@ import {
   mePackagingCorridor,
   mlsCorridor,
   superCorridor,
+  zoneOffsetCorridor,
 } from "./corridors";
 import type { UserInputs } from "./types";
 
@@ -188,8 +189,57 @@ describe("HECS corridor", () => {
   });
 });
 
+describe("Zone offset corridor", () => {
+  it("is grey when not in a zone", () => {
+    const inputs = scenario({
+      grossAnnualSalary: 100_000,
+      zoneTaxResidency: "none",
+    });
+    const derived = deriveValues(inputs);
+    const c = zoneOffsetCorridor(inputs, derived);
+    expect(c.status).toBe("grey");
+    expect(c.applicable).toBe(false);
+    expect(c.headline).toMatch(/Not applicable/);
+  });
+
+  it("is amber with the Zone A base amount when flagged", () => {
+    const inputs = scenario({
+      grossAnnualSalary: 100_000,
+      zoneTaxResidency: "zone-a",
+    });
+    const derived = deriveValues(inputs);
+    const c = zoneOffsetCorridor(inputs, derived);
+    expect(c.status).toBe("amber");
+    expect(c.applicable).toBe(true);
+    expect(derived.zoneOffsetBase).toBe(338);
+    expect(c.headline).toMatch(/\$338/);
+    expect(c.headline).toMatch(/Zone A/);
+  });
+
+  it("surfaces the special-area base at $1,173", () => {
+    const inputs = scenario({
+      grossAnnualSalary: 100_000,
+      zoneTaxResidency: "special-area",
+    });
+    const derived = deriveValues(inputs);
+    const c = zoneOffsetCorridor(inputs, derived);
+    expect(derived.zoneOffsetBase).toBe(1_173);
+    expect(c.headline).toMatch(/\$1,173/);
+  });
+
+  it("surfaces Zone B at $57", () => {
+    const inputs = scenario({
+      grossAnnualSalary: 100_000,
+      zoneTaxResidency: "zone-b",
+    });
+    const derived = deriveValues(inputs);
+    expect(derived.zoneOffsetBase).toBe(57);
+    expect(zoneOffsetCorridor(inputs, derived).headline).toMatch(/Zone B/);
+  });
+});
+
 describe("allCorridors", () => {
-  it("returns seven corridors in stable order", () => {
+  it("returns eight corridors in stable order", () => {
     const inputs = scenario({ grossAnnualSalary: 100_000 });
     const derived = deriveValues(inputs);
     const list = allCorridors(inputs, derived);
@@ -201,6 +251,7 @@ describe("allCorridors", () => {
       "fhss",
       "deductions",
       "hecs",
+      "zone-offset",
     ]);
   });
 });
