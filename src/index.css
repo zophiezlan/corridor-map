@@ -1,5 +1,38 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans:
+    "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:
+    "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-display: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  font-feature-settings: "cv11", "ss01", "ss03", "cv01", "cv02";
+  font-variant-numeric: tabular-nums;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Money / number-heavy UI: keep tabular alignment even inside prose blocks. */
+.font-mono,
+.tabular-nums,
+input[type="number"],
+input[inputmode="numeric"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Display-weight headings: tighter tracking, ss03 for disambiguated 0/O. */
+h1,
+h2,
+h3 {
+  font-feature-settings: "cv11", "ss01", "ss03";
+}
+
 /* Respect users who prefer reduced motion — WCAG 2.3.3 / user setting. */
 @media (prefers-reduced-motion: reduce) {
   *,

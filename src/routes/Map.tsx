@@ -58,10 +58,10 @@ export function Map() {
     <div>
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-stone-900 leading-tight">
             Your corridor map
           </h1>
-          <p className="mt-2 text-stone-600">
+          <p className="mt-3 text-stone-600">
             Based on a gross salary of{" "}
             <Money value={inputs.grossAnnualSalary} /> ({inputs.employerType}).
           </p>
@@ -71,20 +71,20 @@ export function Map() {
             type="button"
             onClick={handleCopyLink}
             aria-live="polite"
-            className="rounded-md border border-stone-300 bg-white px-3 py-1.5 min-h-[36px] text-sm hover:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700/40 focus:ring-offset-2"
+            className="rounded-md border border-stone-300 bg-white px-3 py-1.5 min-h-[36px] text-sm transition-colors hover:border-stone-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-700/40 focus-visible:ring-offset-2"
           >
-            {copied ? "Link copied ✓" : "Copy link"}
+            {copied ? "Link copied \u2713" : "Copy link"}
           </button>
           <button
             type="button"
             onClick={() => window.print()}
-            className="rounded-md border border-stone-300 bg-white px-3 py-1.5 min-h-[36px] text-sm hover:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700/40 focus:ring-offset-2"
+            className="rounded-md border border-stone-300 bg-white px-3 py-1.5 min-h-[36px] text-sm transition-colors hover:border-stone-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-700/40 focus-visible:ring-offset-2"
           >
             Print
           </button>
           <Link
             to="/inputs"
-            className="rounded-md border border-stone-300 bg-white px-3 py-1.5 min-h-[36px] text-sm hover:border-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-700/40 focus:ring-offset-2"
+            className="rounded-md border border-stone-300 bg-white px-3 py-1.5 min-h-[36px] text-sm transition-colors hover:border-stone-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-700/40 focus-visible:ring-offset-2"
           >
             Edit inputs
           </Link>
@@ -144,8 +144,10 @@ function Summary({
 }) {
   return (
     <div>
-      <p className="text-xs uppercase tracking-wide text-stone-500">{label}</p>
-      <p className="mt-1 font-mono tabular-nums text-lg text-stone-900">
+      <p className="text-[10px] font-mono font-semibold uppercase tracking-[0.14em] text-stone-500">
+        {label}
+      </p>
+      <p className="mt-1.5 font-mono tabular-nums text-lg text-stone-900 tracking-tight">
         {text ? (
           text
         ) : isPercent ? (

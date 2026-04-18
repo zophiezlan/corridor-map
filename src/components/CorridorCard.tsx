@@ -8,27 +8,31 @@ export function CorridorCard({ summary }: { summary: CorridorCardSummary }) {
   return (
     <Link
       to={`/corridor/${summary.id}`}
-      className={`block rounded-lg border border-stone-200 bg-white p-5 shadow-sm transition hover:shadow-md hover:border-stone-300 ${
+      className={`group relative block rounded-lg border border-stone-200 bg-white p-5 shadow-sm transition duration-150 hover:-translate-y-px hover:border-stone-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-700/40 focus-visible:ring-offset-2 ${
         dim ? "opacity-70" : ""
       }`}
     >
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center gap-2">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
           <span
-            className={`h-2 w-2 rounded-full ${statusDotClass(summary.status)}`}
+            className={`h-2 w-2 rounded-full flex-shrink-0 ${statusDotClass(summary.status)}`}
             aria-hidden
           />
-          <h2 className="font-semibold text-stone-900">{summary.name}</h2>
+          <h2 className="font-semibold tracking-tight text-stone-900 truncate">
+            {summary.name}
+          </h2>
         </div>
         <StatusBadge status={summary.status} />
       </div>
-      <p className="mt-3 font-mono tabular-nums text-xl text-stone-900">
+      <p className="mt-3 font-mono tabular-nums text-xl text-stone-900 tracking-tight">
         {summary.headline}
       </p>
       <p className="mt-2 text-sm text-stone-600 leading-snug">
         {summary.insight}
       </p>
-      <p className="mt-3 text-xs text-stone-400">See details →</p>
+      <p className="mt-4 text-[11px] font-mono uppercase tracking-[0.14em] text-stone-400 group-hover:text-stone-700 transition-colors">
+        See details &rarr;
+      </p>
     </Link>
   );
 }

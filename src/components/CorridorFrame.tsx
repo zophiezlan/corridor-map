@@ -17,25 +17,30 @@ export function CorridorFrame({ title, status, headline, children }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link to="/map" className="text-sm text-stone-500 hover:text-stone-900">
-          ← Back to map
+        <Link
+          to="/map"
+          className="inline-flex items-center gap-1 text-sm text-stone-500 hover:text-stone-900 transition-colors"
+        >
+          &larr; Back to map
         </Link>
       </div>
 
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
-          <p className="mt-2 font-mono tabular-nums text-2xl text-stone-900">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-stone-900 leading-tight">
+            {title}
+          </h1>
+          <p className="mt-3 font-mono tabular-nums text-2xl text-stone-900 tracking-tight">
             {headline}
           </p>
         </div>
         <StatusBadge status={status} />
       </div>
 
-      <div className="mt-8 space-y-8">{children}</div>
+      <div className="mt-10 space-y-10">{children}</div>
 
-      <p className="mt-12 text-xs text-stone-400">
-        All figures apply to {FINANCIAL_YEAR_LABEL}.
+      <p className="mt-12 text-[11px] font-mono uppercase tracking-[0.14em] text-stone-400">
+        All figures apply to {FINANCIAL_YEAR_LABEL}
       </p>
     </div>
   );
@@ -46,10 +51,10 @@ type SectionProps = { title: string; children: ReactNode };
 export function Section({ title, children }: SectionProps) {
   return (
     <section>
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-stone-500">
+      <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-stone-500">
         {title}
       </h2>
-      <div className="mt-2 text-stone-800 leading-relaxed space-y-3">
+      <div className="mt-3 text-stone-800 leading-relaxed space-y-3">
         {children}
       </div>
     </section>
