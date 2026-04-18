@@ -83,10 +83,9 @@ export function About() {
           Colophon
         </h2>
         <p>
-          Built by Clancy. React + TypeScript + Tailwind + Vite, deployed on
-          Vercel. Calculations live in a single module of pure functions with
-          unit tests — audit the math by reading{" "}
-          <code className="text-sm">src/calc/</code>.
+          React + TypeScript + Tailwind + Vite, deployed on Vercel. Calculations
+          live in a single module of pure functions with unit tests — audit the
+          math by reading <code className="text-sm">src/calc/</code>.
         </p>
       </section>
     </div>
