@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 /**
  * React Router doesn't scroll to top on route change by default. Sub to pathname
@@ -10,7 +10,7 @@ export function ScrollToTop() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
     if (hash) return;
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname, hash]);
   return null;
 }

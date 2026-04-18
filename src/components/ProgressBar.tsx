@@ -1,4 +1,4 @@
-import type { CorridorStatus } from '../calc/types';
+import type { CorridorStatus } from "../calc/types";
 
 type Props = {
   utilisation: number; // 0-1
@@ -7,10 +7,10 @@ type Props = {
 };
 
 const FILL: Record<CorridorStatus, string> = {
-  green: 'bg-emerald-500',
-  amber: 'bg-amber-500',
-  red: 'bg-rose-500',
-  grey: 'bg-stone-400',
+  green: "bg-emerald-500",
+  amber: "bg-amber-500",
+  red: "bg-rose-500",
+  grey: "bg-stone-400",
 };
 
 export function ProgressBar({ utilisation, status, label }: Props) {
@@ -20,7 +20,9 @@ export function ProgressBar({ utilisation, status, label }: Props) {
       {label && (
         <div className="flex justify-between text-xs text-stone-500 mb-1">
           <span>{label}</span>
-          <span className="font-mono tabular-nums">{Math.round(pct * 100)}%</span>
+          <span className="font-mono tabular-nums">
+            {Math.round(pct * 100)}%
+          </span>
         </div>
       )}
       <div className="h-2.5 w-full rounded-full bg-stone-200 overflow-hidden">

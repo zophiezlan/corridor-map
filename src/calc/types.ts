@@ -1,6 +1,18 @@
-import type { EmployerType, MlsTier } from './constants';
+import type { EmployerType, MlsTier } from "./constants";
 
-export type PropertyGoal = 'none' | 'within-12m' | '1-3y' | '3y-plus';
+export type PropertyGoal = "none" | "within-12m" | "1-3y" | "3y-plus";
+
+export type PremiumPeriod = "weekly" | "fortnightly" | "monthly" | "annual";
+
+/**
+ * How the user is currently receiving the government PHI rebate:
+ *   - reduced-premium: rebate is already applied to their bill (the amount they
+ *     enter is what they actually pay the fund — no further discount)
+ *   - tax-refund: they pay the full premium now and receive the rebate at tax
+ *     time, so net cost is premium × (1 − rebate%)
+ *   - unsure: treat as reduced-premium (conservative) and prompt them to check
+ */
+export type RebateTreatment = "reduced-premium" | "tax-refund" | "unsure";
 
 export type UserInputs = {
   // Basic
@@ -19,7 +31,9 @@ export type UserInputs = {
 
   // Private health
   hasPrivateHospitalCover: boolean;
-  privateHealthPremiumAnnual: number | null;
+  privateHealthPremium: number | null; // amount paid per the chosen period
+  privateHealthPremiumPeriod: PremiumPeriod;
+  privateHealthRebateTreatment: RebateTreatment;
 
   // Investment-related (advanced)
   netFinancialInvestmentLosses: number;
@@ -44,9 +58,9 @@ export type DerivedValues = {
   rebateTier: MlsTier;
 
   mlsLiabilityAnnual: number;
-  marginalTaxRate: number;          // income tax marginal rate
+  marginalTaxRate: number; // income tax marginal rate
   marginalTaxRateWithMedicare: number; // + Medicare levy
-  marginalTaxRateWithStsl: number;     // + STSL marginal repayment rate if applicable
+  marginalTaxRateWithStsl: number; // + STSL marginal repayment rate if applicable
 
   // Packaging utilisation
   generalPackagingUtilisation: number; // 0-1
@@ -62,15 +76,17 @@ export type DerivedValues = {
   // PHI
   phiRebatePercent: number;
   ageBasedDiscount: number;
-  netPhiCostAnnual: number | null;   // null if no cover
-  breakEvenPremiumAnnual: number | null; // premium at which net cost == MLS liability
+  premiumPaidAnnual: number | null; // what the user actually pays the fund per year
+  rebateRefundAnnual: number; // rebate value at tax time (0 if already reduced)
+  netPhiCostAnnual: number | null; // true cost after any rebate; null if no cover
+  breakEvenNetCostAnnual: number | null; // max net cost that still beats MLS
 
   // HECS
   hecsMarginalRate: number;
   hecsRepaymentAnnual: number;
 };
 
-export type CorridorStatus = 'green' | 'amber' | 'red' | 'grey';
+export type CorridorStatus = "green" | "amber" | "red" | "grey";
 
 export type CorridorCardSummary = {
   id: string;

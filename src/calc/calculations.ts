@@ -4,14 +4,15 @@ import {
   MEDICARE_LEVY,
   MLS_THRESHOLDS_SINGLE,
   PBI_GROSSUP_FACTOR,
+  PERIOD_MULTIPLIERS,
   SUPER_CONTRIBUTIONS_TAX,
   TAX_BRACKETS,
   getAgeBasedDiscount,
   getCurrentPhiRebateRates,
   getPackagingCaps,
-} from './constants';
-import type { MlsTier } from './constants';
-import type { DerivedValues, UserInputs } from './types';
+} from "./constants";
+import type { MlsTier } from "./constants";
+import type { DerivedValues, UserInputs } from "./types";
 
 // ---------- Basic tax helpers ----------
 
@@ -43,10 +44,10 @@ export function marginalTaxRate(taxable: number): number {
 // ---------- MLS & rebate tiers ----------
 
 export function mlsTierFor(mlsIncome: number): MlsTier {
-  if (mlsIncome <= MLS_THRESHOLDS_SINGLE.Base.upTo) return 'Base';
-  if (mlsIncome <= MLS_THRESHOLDS_SINGLE.Tier1.upTo) return 'Tier1';
-  if (mlsIncome <= MLS_THRESHOLDS_SINGLE.Tier2.upTo) return 'Tier2';
-  return 'Tier3';
+  if (mlsIncome <= MLS_THRESHOLDS_SINGLE.Base.upTo) return "Base";
+  if (mlsIncome <= MLS_THRESHOLDS_SINGLE.Tier1.upTo) return "Tier1";
+  if (mlsIncome <= MLS_THRESHOLDS_SINGLE.Tier2.upTo) return "Tier2";
+  return "Tier3";
 }
 
 export function mlsRateFor(tier: MlsTier): number {
@@ -123,31 +124,47 @@ export function deriveValues(
   const phiRebatePercent = phiRates[rebateTier];
   const ageBasedDiscount = getAgeBasedDiscount(inputs.age);
 
-  // Net PHI cost = premium × (1 − age discount) × (1 − rebate %)
+  // PHI cost model. The fund's quoted premium already bakes in ABD (if the
+  // policy is ABD-eligible). The rebate is either applied as a reduced premium
+  // (bill is smaller) or claimed at tax time (refund arrives later).
+  const premiumPaidAnnual =
+    inputs.hasPrivateHospitalCover && inputs.privateHealthPremium != null
+      ? Math.round(
+          inputs.privateHealthPremium *
+            PERIOD_MULTIPLIERS[inputs.privateHealthPremiumPeriod],
+        )
+      : null;
+
   let netPhiCostAnnual: number | null = null;
-  if (inputs.hasPrivateHospitalCover && inputs.privateHealthPremiumAnnual != null) {
-    const premium = inputs.privateHealthPremiumAnnual;
-    const afterAbd = premium * (1 - ageBasedDiscount);
-    netPhiCostAnnual = Math.round(afterAbd * (1 - phiRebatePercent));
+  let rebateRefundAnnual = 0;
+  if (premiumPaidAnnual != null) {
+    if (inputs.privateHealthRebateTreatment === "tax-refund") {
+      rebateRefundAnnual = Math.round(premiumPaidAnnual * phiRebatePercent);
+      netPhiCostAnnual = premiumPaidAnnual - rebateRefundAnnual;
+    } else {
+      // 'reduced-premium' or 'unsure' — the bill already reflects the rebate
+      // (or we conservatively assume so). No further discount here.
+      netPhiCostAnnual = premiumPaidAnnual;
+    }
   }
 
-  // Break-even premium: the gross premium at which net cost equals MLS liability.
-  // We compare against what the MLS *would be* if they had no cover.
+  // Break-even net cost: the most a user should be willing to pay (net of any
+  // rebate) for cover before it's cheaper to just wear the MLS.
   const hypotheticalMls = Math.round(mlsIncome * mlsRate);
-  const discountedRate = (1 - ageBasedDiscount) * (1 - phiRebatePercent);
-  const breakEvenPremiumAnnual =
-    mlsRate > 0 && discountedRate > 0
-      ? Math.round(hypotheticalMls / discountedRate)
-      : null;
+  const breakEvenNetCostAnnual = mlsRate > 0 ? hypotheticalMls : null;
 
   const mtr = marginalTaxRate(taxableIncome);
   const hecsRate = inputs.hasHECS ? hecsMarginalRate(hecsRepaymentIncome) : 0;
-  const hecsRepayment = inputs.hasHECS ? hecsRepaymentAnnual(hecsRepaymentIncome) : 0;
+  const hecsRepayment = inputs.hasHECS
+    ? hecsRepaymentAnnual(hecsRepaymentIncome)
+    : 0;
 
   const generalCap = caps.general;
   const meCap = caps.me;
   const generalPackagingUtilisation =
-    generalCap > 0 ? Math.min(1, (inputs.currentGeneralPackaging || 0) / generalCap) : 0;
+    generalCap > 0
+      ? Math.min(1, (inputs.currentGeneralPackaging || 0) / generalCap)
+      : 0;
   const mePackagingUtilisation =
     meCap > 0 ? Math.min(1, (inputs.currentMEPackaging || 0) / meCap) : 0;
 
@@ -183,8 +200,10 @@ export function deriveValues(
     employerSgDollars,
     phiRebatePercent,
     ageBasedDiscount,
+    premiumPaidAnnual,
+    rebateRefundAnnual,
     netPhiCostAnnual,
-    breakEvenPremiumAnnual,
+    breakEvenNetCostAnnual,
     hecsMarginalRate: hecsRate,
     hecsRepaymentAnnual: Math.round(hecsRepayment),
   };
@@ -207,7 +226,9 @@ export function packagingPotentialSaving(
     0,
     derived.generalPackagingCap - (inputs.currentGeneralPackaging || 0),
   );
-  const annualSaving = Math.round(additional * derived.marginalTaxRateWithMedicare);
+  const annualSaving = Math.round(
+    additional * derived.marginalTaxRateWithMedicare,
+  );
   return { additional, annualSaving };
 }
 
@@ -220,7 +241,9 @@ export function mePackagingPotentialSaving(
     0,
     derived.mePackagingCap - (inputs.currentMEPackaging || 0),
   );
-  const annualSaving = Math.round(additional * derived.marginalTaxRateWithMedicare);
+  const annualSaving = Math.round(
+    additional * derived.marginalTaxRateWithMedicare,
+  );
   return { additional, annualSaving };
 }
 
@@ -248,11 +271,14 @@ export function roundNearest10(n: number): number {
   return Math.round(n / 10) * 10;
 }
 
-export function formatAUD(n: number | null | undefined, opts?: { round10?: boolean }): string {
-  if (n == null) return '—';
+export function formatAUD(
+  n: number | null | undefined,
+  opts?: { round10?: boolean },
+): string {
+  if (n == null) return "—";
   const value = opts?.round10 ? roundNearest10(n) : Math.round(n);
-  const sign = value < 0 ? '-' : '';
-  const abs = Math.abs(value).toLocaleString('en-AU');
+  const sign = value < 0 ? "-" : "";
+  const abs = Math.abs(value).toLocaleString("en-AU");
   return `${sign}$${abs}`;
 }
 

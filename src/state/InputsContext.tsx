@@ -1,31 +1,39 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
-import { SG_RATE_DEFAULT } from '../calc/constants';
-import { deriveValues } from '../calc/calculations';
-import type { DerivedValues, UserInputs } from '../calc/types';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import type { ReactNode } from "react";
+import { SG_RATE_DEFAULT } from "../calc/constants";
+import { deriveValues } from "../calc/calculations";
+import type { DerivedValues, UserInputs } from "../calc/types";
 
-const STORAGE_KEY = 'corridor-map.inputs.v1';
+const STORAGE_KEY = "corridor-map.inputs.v2";
 
 export const DEFAULT_INPUTS: UserInputs = {
-  age: 35,
+  age: 30,
   grossAnnualSalary: 0,
-  employerType: 'PBI',
+  employerType: "PBI",
   currentGeneralPackaging: 0,
   currentMEPackaging: 0,
   currentSuperSacrifice: 0,
   employerSGRate: SG_RATE_DEFAULT,
   deductiblePersonalSuperContributions: 0,
   hasPrivateHospitalCover: false,
-  privateHealthPremiumAnnual: null,
+  privateHealthPremium: null,
+  privateHealthPremiumPeriod: "fortnightly",
+  privateHealthRebateTreatment: "reduced-premium",
   netFinancialInvestmentLosses: 0,
   netRentalPropertyLosses: 0,
   hasHECS: false,
   hecsBalance: null,
-  propertyGoal: 'none',
+  propertyGoal: "none",
 };
 
 function loadFromStorage(): UserInputs | null {
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
   try {
     const raw = window.sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -61,17 +69,14 @@ export function InputsProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const setInput = useCallback<InputsContextValue['setInput']>(
+  const setInput = useCallback<InputsContextValue["setInput"]>(
     (key, value) => {
       persist({ ...inputs, [key]: value });
     },
     [inputs, persist],
   );
 
-  const setInputs = useCallback(
-    (next: UserInputs) => persist(next),
-    [persist],
-  );
+  const setInputs = useCallback((next: UserInputs) => persist(next), [persist]);
 
   const reset = useCallback(() => {
     try {
@@ -91,11 +96,13 @@ export function InputsProvider({ children }: { children: ReactNode }) {
     [inputs, derived, setInput, setInputs, reset, hasInputs],
   );
 
-  return <InputsContext.Provider value={value}>{children}</InputsContext.Provider>;
+  return (
+    <InputsContext.Provider value={value}>{children}</InputsContext.Provider>
+  );
 }
 
 export function useInputs(): InputsContextValue {
   const ctx = useContext(InputsContext);
-  if (!ctx) throw new Error('useInputs must be used inside <InputsProvider>');
+  if (!ctx) throw new Error("useInputs must be used inside <InputsProvider>");
   return ctx;
 }

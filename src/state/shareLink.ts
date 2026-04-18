@@ -1,5 +1,5 @@
-import type { UserInputs } from '../calc/types';
-import { DEFAULT_INPUTS } from './InputsContext';
+import type { UserInputs } from "../calc/types";
+import { DEFAULT_INPUTS } from "./InputsContext";
 
 /**
  * URL-encode/decode a scenario to a short base64url string.
@@ -9,21 +9,23 @@ import { DEFAULT_INPUTS } from './InputsContext';
  */
 
 const KEY_MAP: Record<string, keyof UserInputs> = {
-  a: 'age',
-  s: 'grossAnnualSalary',
-  e: 'employerType',
-  gp: 'currentGeneralPackaging',
-  mp: 'currentMEPackaging',
-  ss: 'currentSuperSacrifice',
-  sg: 'employerSGRate',
-  dp: 'deductiblePersonalSuperContributions',
-  ph: 'hasPrivateHospitalCover',
-  pp: 'privateHealthPremiumAnnual',
-  fl: 'netFinancialInvestmentLosses',
-  rl: 'netRentalPropertyLosses',
-  h: 'hasHECS',
-  hb: 'hecsBalance',
-  pg: 'propertyGoal',
+  a: "age",
+  s: "grossAnnualSalary",
+  e: "employerType",
+  gp: "currentGeneralPackaging",
+  mp: "currentMEPackaging",
+  ss: "currentSuperSacrifice",
+  sg: "employerSGRate",
+  dp: "deductiblePersonalSuperContributions",
+  ph: "hasPrivateHospitalCover",
+  pp: "privateHealthPremium",
+  pr: "privateHealthPremiumPeriod",
+  pt: "privateHealthRebateTreatment",
+  fl: "netFinancialInvestmentLosses",
+  rl: "netRentalPropertyLosses",
+  h: "hasHECS",
+  hb: "hecsBalance",
+  pg: "propertyGoal",
 };
 
 const INV_KEY_MAP = Object.fromEntries(
@@ -31,12 +33,12 @@ const INV_KEY_MAP = Object.fromEntries(
 ) as Record<keyof UserInputs, string>;
 
 function b64urlEncode(s: string): string {
-  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 function b64urlDecode(s: string): string {
-  const pad = s.length % 4 === 0 ? '' : '='.repeat(4 - (s.length % 4));
-  return atob(s.replace(/-/g, '+').replace(/_/g, '/') + pad);
+  const pad = s.length % 4 === 0 ? "" : "=".repeat(4 - (s.length % 4));
+  return atob(s.replace(/-/g, "+").replace(/_/g, "/") + pad);
 }
 
 export function encodeInputs(inputs: UserInputs): string {
@@ -48,7 +50,7 @@ export function encodeInputs(inputs: UserInputs): string {
       diff[INV_KEY_MAP[k]] = value;
     }
   }
-  if (Object.keys(diff).length === 0) return '';
+  if (Object.keys(diff).length === 0) return "";
   return b64urlEncode(JSON.stringify(diff));
 }
 
@@ -62,7 +64,10 @@ export function decodeInputs(encoded: string): UserInputs | null {
       if (!fullKey) continue;
       (result as Record<string, unknown>)[fullKey] = value;
     }
-    if (typeof result.grossAnnualSalary !== 'number' || result.grossAnnualSalary < 0) {
+    if (
+      typeof result.grossAnnualSalary !== "number" ||
+      result.grossAnnualSalary < 0
+    ) {
       return null;
     }
     return result;

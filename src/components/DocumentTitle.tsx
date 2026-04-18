@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-const BASE = 'Corridor Map';
+const BASE = "Corridor Map";
 
 /**
  * Set the document title. Pass `undefined` to just use the base title, or a

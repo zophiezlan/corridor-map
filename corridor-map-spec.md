@@ -80,7 +80,12 @@ type UserInputs = {
   grossAnnualSalary: number; // pre-tax annual salary
 
   // Employer
-  employerType: 'PBI' | 'Public Hospital' | 'Rebatable NFP' | 'For-profit' | 'Unknown';
+  employerType:
+    | "PBI"
+    | "Public Hospital"
+    | "Rebatable NFP"
+    | "For-profit"
+    | "Unknown";
   // PBI cap: $15,900 general + $2,650 M&E
   // Public hospital cap: $9,010 general + $2,650 M&E
   // Rebatable: no FBT-exempt cap but 47% rebate up to $30k grossed-up
@@ -109,7 +114,7 @@ type UserInputs = {
   hecsBalance: number | null;
 
   // Goals (affect corridor relevance, not calculations)
-  propertyGoal: 'none' | 'within-12m' | '1-3y' | '3y-plus';
+  propertyGoal: "none" | "within-12m" | "1-3y" | "3y-plus";
 };
 ```
 
@@ -130,10 +135,10 @@ type DerivedValues = {
   hecsRepaymentIncome: number;
 
   // MLS tier
-  mlsTier: 'Base' | 'Tier1' | 'Tier2' | 'Tier3';
+  mlsTier: "Base" | "Tier1" | "Tier2" | "Tier3";
 
   // Rebate tier (same thresholds, different purpose)
-  rebateTier: 'Base' | 'Tier1' | 'Tier2' | 'Tier3';
+  rebateTier: "Base" | "Tier1" | "Tier2" | "Tier3";
 
   // MLS liability (if no private cover)
   mlsLiabilityAnnual: number;
@@ -154,13 +159,13 @@ type DerivedValues = {
 ### Constants (all in `constants.ts`)
 
 ```typescript
-export const FINANCIAL_YEAR = '2025-26';
+export const FINANCIAL_YEAR = "2025-26";
 
 // Tax brackets 2025-26 (resident, post Stage 3 cuts)
 export const TAX_BRACKETS = [
   { threshold: 0, rate: 0 },
   { threshold: 18201, rate: 0.16 },
-  { threshold: 45001, rate: 0.30 },
+  { threshold: 45001, rate: 0.3 },
   { threshold: 135001, rate: 0.37 },
   { threshold: 190001, rate: 0.45 },
 ];
@@ -178,13 +183,15 @@ export const MLS_THRESHOLDS_SINGLE = {
 // PHI rebate percentages (singles under 65) - 2025-26
 // Rates change 1 April each year; code should select based on date at time of calc
 export const PHI_REBATE_SINGLE_UNDER_65 = {
-  preApril2026: { // 1 July 2025 - 31 March 2026
+  preApril2026: {
+    // 1 July 2025 - 31 March 2026
     base: 0.24288,
     tier1: 0.16193,
     tier2: 0.08095,
     tier3: 0,
   },
-  fromApril2026: { // 1 April 2026 - 30 June 2026
+  fromApril2026: {
+    // 1 April 2026 - 30 June 2026
     base: 0.24118,
     tier1: 0.16082,
     tier2: 0.08045,
@@ -196,8 +203,14 @@ export const PHI_REBATE_SINGLE_UNDER_65 = {
 // Applies to hospital premiums only, not extras
 // Only for ABD-eligible policies (most Bronze+ policies qualify)
 export const AGE_BASED_DISCOUNT = {
-  18: 0.10, 19: 0.10, 20: 0.10, 21: 0.10, 22: 0.10,
-  23: 0.10, 24: 0.10, 25: 0.10,
+  18: 0.1,
+  19: 0.1,
+  20: 0.1,
+  21: 0.1,
+  22: 0.1,
+  23: 0.1,
+  24: 0.1,
+  25: 0.1,
   26: 0.08,
   27: 0.06,
   28: 0.04,
@@ -225,7 +238,7 @@ export const HECS_THRESHOLD_2025_26 = 56156; // below this, no repayment
 
 ```typescript
 function getCurrentPhiRebateRates(asOf: Date = new Date()) {
-  const april1_2026 = new Date('2026-04-01');
+  const april1_2026 = new Date("2026-04-01");
   return asOf >= april1_2026
     ? PHI_REBATE_SINGLE_UNDER_65.fromApril2026
     : PHI_REBATE_SINGLE_UNDER_65.preApril2026;
@@ -245,6 +258,7 @@ taxableIncome = grossAnnualSalary - (currentGeneralPackaging + currentMEPackagin
 ### Step 2: RFBA
 
 Only applies if employer is PBI or Public Hospital:
+
 ```
 rfba = (currentGeneralPackaging + currentMEPackaging) × PBI_GROSSUP_FACTOR
 ```
@@ -254,6 +268,7 @@ rfba = (currentGeneralPackaging + currentMEPackaging) × PBI_GROSSUP_FACTOR
 ### Step 3: MLS income
 
 Per ATO definition:
+
 ```
 mlsIncome =
   taxableIncome
@@ -265,6 +280,7 @@ mlsIncome =
 ```
 
 For the typical V1 user (no investment losses, no personal deductible super contributions):
+
 ```
 mlsIncome = taxableIncome + rfba + currentSuperSacrifice
 ```
@@ -274,6 +290,7 @@ mlsIncome = taxableIncome + rfba + currentSuperSacrifice
 Lookup `mlsIncome` against `MLS_THRESHOLDS_SINGLE` to determine the tier rate.
 
 If no private hospital cover:
+
 ```
 mlsLiabilityAnnual = mlsIncome × tierRate
 ```
@@ -399,6 +416,7 @@ Keep it simple. No dark patterns, no celebratory animations when you "save money
 ## 8. Out of scope for V1
 
 Explicitly deferring:
+
 - Property / mortgage / negative gearing modelling (genuinely complex, needs its own design pass)
 - Couples and families
 - FHSS calculator (just describe for V1)
@@ -420,12 +438,14 @@ Some of these are V2, some are V3, some are never. Don't build them into V1 spec
 ### 9.1 MLS calculation (confirmed against ATO source)
 
 **Income for MLS purposes** is the sum of:
+
 - Taxable income
 - Reportable fringe benefits
 - Total net investment losses (net financial investment losses + net rental property losses)
 - Reportable super contributions (reportable employer super contributions + deductible personal super contributions)
 
 For V1, assume:
+
 - No family trust distributions
 - No FHSS released amounts
 - No spouse (V1 is singles only)
@@ -436,21 +456,23 @@ So the V1-simplified calculation is:
 
 ```typescript
 mlsIncome =
-  taxableIncome
-  + rfba
-  + netFinancialInvestmentLosses
-  + netRentalPropertyLosses
-  + reportableEmployerSuperContributions
-  + deductiblePersonalSuperContributions
+  taxableIncome +
+  rfba +
+  netFinancialInvestmentLosses +
+  netRentalPropertyLosses +
+  reportableEmployerSuperContributions +
+  deductiblePersonalSuperContributions;
 ```
 
 For most V1 users (PBI workers, no investment property, salary sacrificing through employer):
+
 ```typescript
-mlsIncome = taxableIncome + rfba + reportableEmployerSuperContributions
+mlsIncome = taxableIncome + rfba + reportableEmployerSuperContributions;
 ```
 
 **How the surcharge is applied:**
-- MLS income determines the *tier* (rate: 0%, 1%, 1.25%, or 1.5%)
+
+- MLS income determines the _tier_ (rate: 0%, 1%, 1.25%, or 1.5%)
 - The surcharge rate is applied to **taxable income + RFBA + reportable super contributions** (essentially MLS income minus investment losses)
 - For V1 users, this effectively means the surcharge is calculated on MLS income itself
 
@@ -461,6 +483,7 @@ mlsIncome = taxableIncome + rfba + reportableEmployerSuperContributions
 Include in V1. Hide behind a single question: "Are you under 30?" If yes, collect exact age and apply the age-based discount to the PHI premium calculation.
 
 **Age-Based Discount rates (for eligible policies):**
+
 - Age 18-25: 10% discount
 - Age 26: 8% discount
 - Age 27: 6% discount
@@ -473,6 +496,7 @@ The discount applies to hospital premiums only (not extras), and only for polici
 ### 9.3 PHI rebate rate — use rate at time of calculation
 
 PHI rebate rates change 1 April each year. V1 approach:
+
 - Use `new Date()` at time of calculation
 - If date is before 1 April of current FY, use pre-April rate
 - If date is on or after 1 April, use post-April rate
@@ -504,21 +528,25 @@ Add comments in the code warning that these need annual review.
 Start with these defaults. Adjust once the author has a feel for real usage:
 
 **Packaging (general cap):**
+
 - ≥95% utilisation → green (well-optimised)
 - 50-94% → amber (room to improve)
 - <50% → red (significant money on the table)
 - 0% when employer is PBI/public hospital → red flag with explainer
 
 **Packaging (M&E cap):**
+
 - Same thresholds as general
 - But defaults to amber rather than red when 0%, since M&E is genuinely not useful for everyone
 
 **MLS:**
+
 - Has private hospital cover → green, regardless of income
 - No cover, income below Base tier threshold → green (doesn't apply)
 - No cover, income at Tier 1+ → red (you're paying tax you could avoid)
 
 **Super:**
+
 - If property goal is "within-12m" or "1-3y": any utilisation is fine, show as amber only if >50% cap used (may be locking up money you'll want)
 - If property goal is "none" or "3y-plus": <30% of cap → amber, <10% of cap → red
 - Employer SG alone (no voluntary sacrifice) is the baseline — not "wrong," just not optimised
@@ -570,6 +598,7 @@ Estimate: a focused weekend for 1-5, another weekend for 6-9, ongoing iteration 
 Working title: **Corridor Map**
 
 Alternative names to consider:
+
 - "Legibility" (Scottian nod, probably too on-the-nose)
 - "Tax corridors"
 - "The PBI Playbook"

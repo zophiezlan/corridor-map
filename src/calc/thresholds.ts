@@ -6,13 +6,13 @@
 export const PACKAGING_THRESHOLDS = {
   general: {
     greenMin: 0.95, // ≥95% utilisation → green
-    amberMin: 0.50, // 50-94% → amber
+    amberMin: 0.5, // 50-94% → amber
     // <50% → red
     // 0% when employer is PBI/public hospital → red (with explainer)
   },
   me: {
     greenMin: 0.95,
-    amberMin: 0.50,
+    amberMin: 0.5,
     // M&E at 0% defaults to amber (not useful for everyone)
   },
 } as const;
@@ -20,11 +20,11 @@ export const PACKAGING_THRESHOLDS = {
 export const SUPER_THRESHOLDS = {
   // When property goal is 'none' or '3y-plus'
   longHorizon: {
-    redBelow: 0.10,   // <10% of cap used
-    amberBelow: 0.30, // <30% of cap used
+    redBelow: 0.1, // <10% of cap used
+    amberBelow: 0.3, // <30% of cap used
   },
   // When property goal is 'within-12m' or '1-3y'
   shortHorizon: {
-    amberAbove: 0.50, // >50% may be locking up money user will want
+    amberAbove: 0.5, // >50% may be locking up money user will want
   },
 } as const;

@@ -13,8 +13,8 @@
  *   - HECS thresholds:   ATO study and training loan repayment rates
  */
 
-export const FINANCIAL_YEAR = '2025-26';
-export const FINANCIAL_YEAR_LABEL = 'FY 2025-26 (1 July 2025 – 30 June 2026)';
+export const FINANCIAL_YEAR = "2025-26";
+export const FINANCIAL_YEAR_LABEL = "FY 2025-26 (1 July 2025 – 30 June 2026)";
 
 // ---------- Income tax (resident, post Stage 3 cuts) ----------
 
@@ -25,9 +25,9 @@ export type TaxBracket = { threshold: number; rate: number };
 // e.g. "45,001 – 135,000: $4,288 plus 30c for each $1 over $45,000", so
 // threshold = 45000 here.
 export const TAX_BRACKETS: TaxBracket[] = [
-  { threshold: 0,      rate: 0 },
+  { threshold: 0, rate: 0 },
   { threshold: 18_200, rate: 0.16 },
-  { threshold: 45_000, rate: 0.30 },
+  { threshold: 45_000, rate: 0.3 },
   { threshold: 135_000, rate: 0.37 },
   { threshold: 190_000, rate: 0.45 },
 ];
@@ -36,13 +36,13 @@ export const MEDICARE_LEVY = 0.02;
 
 // ---------- Medicare Levy Surcharge (singles, under 65) ----------
 
-export type MlsTier = 'Base' | 'Tier1' | 'Tier2' | 'Tier3';
+export type MlsTier = "Base" | "Tier1" | "Tier2" | "Tier3";
 
 export const MLS_THRESHOLDS_SINGLE: Record<
   MlsTier,
   { from: number; upTo: number; rate: number }
 > = {
-  Base:  { from: 0,      upTo: 101_000, rate: 0 },
+  Base: { from: 0, upTo: 101_000, rate: 0 },
   Tier1: { from: 101_001, upTo: 118_000, rate: 0.01 },
   Tier2: { from: 118_001, upTo: 158_000, rate: 0.0125 },
   Tier3: { from: 158_001, upTo: Infinity, rate: 0.015 },
@@ -64,13 +64,13 @@ export const PHI_REBATE_SINGLE_UNDER_65: {
   fromApril2026: PhiRebateRates;
 } = {
   preApril2026: {
-    Base:  0.24288,
+    Base: 0.24288,
     Tier1: 0.16193,
     Tier2: 0.08095,
     Tier3: 0,
   },
   fromApril2026: {
-    Base:  0.24118,
+    Base: 0.24118,
     Tier1: 0.16082,
     Tier2: 0.08045,
     Tier3: 0,
@@ -80,8 +80,14 @@ export const PHI_REBATE_SINGLE_UNDER_65: {
 // ---------- Age-based discount (PHI hospital cover, ABD-eligible policies) ----------
 
 export const AGE_BASED_DISCOUNT: Record<number, number> = {
-  18: 0.10, 19: 0.10, 20: 0.10, 21: 0.10, 22: 0.10,
-  23: 0.10, 24: 0.10, 25: 0.10,
+  18: 0.1,
+  19: 0.1,
+  20: 0.1,
+  21: 0.1,
+  22: 0.1,
+  23: 0.1,
+  24: 0.1,
+  25: 0.1,
   26: 0.08,
   27: 0.06,
   28: 0.04,
@@ -104,11 +110,11 @@ export const PUBLIC_HOSPITAL_GENERAL_CAP = 9_010;
 export const PUBLIC_HOSPITAL_ME_CAP = 2_650;
 
 export type EmployerType =
-  | 'PBI'
-  | 'Public Hospital'
-  | 'Rebatable NFP'
-  | 'For-profit'
-  | 'Unknown';
+  | "PBI"
+  | "Public Hospital"
+  | "Rebatable NFP"
+  | "For-profit"
+  | "Unknown";
 
 export function getPackagingCaps(employer: EmployerType): {
   general: number;
@@ -116,13 +122,21 @@ export function getPackagingCaps(employer: EmployerType): {
   packagingAvailable: boolean;
 } {
   switch (employer) {
-    case 'PBI':
-      return { general: PBI_GENERAL_CAP, me: PBI_ME_CAP, packagingAvailable: true };
-    case 'Public Hospital':
-      return { general: PUBLIC_HOSPITAL_GENERAL_CAP, me: PUBLIC_HOSPITAL_ME_CAP, packagingAvailable: true };
-    case 'Rebatable NFP':
-    case 'For-profit':
-    case 'Unknown':
+    case "PBI":
+      return {
+        general: PBI_GENERAL_CAP,
+        me: PBI_ME_CAP,
+        packagingAvailable: true,
+      };
+    case "Public Hospital":
+      return {
+        general: PUBLIC_HOSPITAL_GENERAL_CAP,
+        me: PUBLIC_HOSPITAL_ME_CAP,
+        packagingAvailable: true,
+      };
+    case "Rebatable NFP":
+    case "For-profit":
+    case "Unknown":
     default:
       return { general: 0, me: 0, packagingAvailable: false };
   }
@@ -135,9 +149,9 @@ export type HecsBracket = { from: number; upTo: number; rate: number };
 // Marginal repayment thresholds for 2025-26. The current ATO regime is marginal
 // (repayments apply only to income above each threshold, not the whole lot).
 export const HECS_THRESHOLDS_2025_26: HecsBracket[] = [
-  { from: 0,       upTo: 56_156,   rate: 0 },
-  { from: 56_156,  upTo: 67_086,   rate: 0.15 },
-  { from: 67_086,  upTo: 124_705,  rate: 0.17 },
+  { from: 0, upTo: 56_156, rate: 0 },
+  { from: 56_156, upTo: 67_086, rate: 0.15 },
+  { from: 67_086, upTo: 124_705, rate: 0.17 },
   { from: 124_705, upTo: Infinity, rate: 0.17 },
 ];
 
@@ -145,8 +159,10 @@ export const HECS_REPAYMENT_THRESHOLD_FLOOR = 56_156;
 
 // ---------- Helpers ----------
 
-export function getCurrentPhiRebateRates(asOf: Date = new Date()): PhiRebateRates {
-  const april1_2026 = new Date('2026-04-01T00:00:00+10:00');
+export function getCurrentPhiRebateRates(
+  asOf: Date = new Date(),
+): PhiRebateRates {
+  const april1_2026 = new Date("2026-04-01T00:00:00+10:00");
   return asOf >= april1_2026
     ? PHI_REBATE_SINGLE_UNDER_65.fromApril2026
     : PHI_REBATE_SINGLE_UNDER_65.preApril2026;
@@ -156,3 +172,12 @@ export function getAgeBasedDiscount(age: number): number {
   if (age < 18 || age >= 30) return 0;
   return AGE_BASED_DISCOUNT[age] ?? 0;
 }
+
+// ---------- Premium period multipliers ----------
+
+export const PERIOD_MULTIPLIERS = {
+  weekly: 52,
+  fortnightly: 26,
+  monthly: 12,
+  annual: 1,
+} as const;

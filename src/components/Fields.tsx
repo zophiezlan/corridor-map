@@ -1,5 +1,5 @@
-import { useId } from 'react';
-import type { ChangeEvent, ReactNode } from 'react';
+import { useId } from "react";
+import type { ChangeEvent, ReactNode } from "react";
 
 type FieldProps = {
   label: string;
@@ -25,10 +25,7 @@ export function Field({ label, hint, children }: FieldProps) {
           {hint}
         </span>
       )}
-      <div className="mt-1.5">
-        {/* Render-prop receives id; children pass aria-describedby in hint mode. */}
-        {children(id)}
-      </div>
+      <div className="mt-1.5">{children(id)}</div>
     </div>
   );
 }
@@ -47,6 +44,16 @@ type NumberInputProps = {
   ariaLabel?: string;
 };
 
+const intFormatter = new Intl.NumberFormat("en-AU", {
+  maximumFractionDigits: 0,
+});
+
+function formatDisplay(value: number | null, isCurrency: boolean): string {
+  if (value == null || Number.isNaN(value)) return "";
+  if (isCurrency) return intFormatter.format(value);
+  return String(value);
+}
+
 export function NumberInput({
   id,
   value,
@@ -60,8 +67,22 @@ export function NumberInput({
   className,
   ariaLabel,
 }: NumberInputProps) {
+  const isCurrency = prefix === "$";
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    if (raw === "" || raw === "-") {
+      onChange(0);
+      return;
+    }
+    // strip any grouping chars (commas, spaces) and parse
+    const cleaned = raw.replace(/[\s,]/g, "");
+    const parsed = Number(cleaned);
+    if (Number.isFinite(parsed)) onChange(parsed);
+  };
+
   return (
-    <div className={`relative flex items-stretch ${className ?? ''}`}>
+    <div className={`relative flex items-stretch ${className ?? ""}`}>
       {prefix && (
         <span
           className="inline-flex items-center rounded-l-md border border-r-0 border-stone-300 bg-stone-50 px-3 text-sm text-stone-600"
@@ -73,20 +94,19 @@ export function NumberInput({
       <input
         id={id}
         aria-label={ariaLabel}
-        type="number"
-        inputMode="decimal"
-        value={value ?? ''}
-        min={min}
-        max={max}
-        step={step}
+        type="text"
+        inputMode={isCurrency ? "numeric" : "decimal"}
+        autoComplete="off"
+        enterKeyHint="done"
+        value={formatDisplay(value, isCurrency)}
+        data-min={min}
+        data-max={max}
+        data-step={step}
         placeholder={placeholder}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          const v = e.target.value;
-          onChange(v === '' ? 0 : Number(v));
-        }}
-        className={`block w-full border border-stone-300 px-3 py-2 text-sm font-mono tabular-nums shadow-sm focus:border-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-700/30 ${
-          prefix ? '' : 'rounded-l-md'
-        } ${suffix ? '' : 'rounded-r-md'}`}
+        onChange={handleChange}
+        className={`block w-full border border-stone-300 px-3 py-2 min-h-[44px] text-sm font-mono tabular-nums shadow-sm focus:border-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-700/30 ${
+          prefix ? "" : "rounded-l-md"
+        } ${suffix ? "" : "rounded-r-md"}`}
       />
       {suffix && (
         <span
@@ -107,13 +127,18 @@ type SelectProps<T extends string> = {
   options: Array<{ value: T; label: string }>;
 };
 
-export function Select<T extends string>({ id, value, onChange, options }: SelectProps<T>) {
+export function Select<T extends string>({
+  id,
+  value,
+  onChange,
+  options,
+}: SelectProps<T>) {
   return (
     <select
       id={id}
       value={value}
       onChange={(e) => onChange(e.target.value as T)}
-      className="block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-700/30"
+      className="block w-full rounded-md border border-stone-300 bg-white px-3 py-2 min-h-[44px] text-sm shadow-sm focus:border-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-700/30"
     >
       {options.map((opt) => (
         <option key={opt.value} value={opt.value}>
@@ -142,10 +167,12 @@ export function Toggle({ checked, onChange, label, hint }: ToggleProps) {
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
         aria-describedby={hint ? hintId : undefined}
-        className="mt-0.5 h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-2 focus:ring-stone-700/40 focus:ring-offset-1"
+        className="mt-1 h-5 w-5 rounded border-stone-300 text-stone-900 focus:ring-2 focus:ring-stone-700/40 focus:ring-offset-1"
       />
       <label htmlFor={id} className="cursor-pointer">
-        <span className="block text-sm font-medium text-stone-900">{label}</span>
+        <span className="block text-sm font-medium text-stone-900">
+          {label}
+        </span>
         {hint && (
           <span id={hintId} className="mt-0.5 block text-xs text-stone-600">
             {hint}
