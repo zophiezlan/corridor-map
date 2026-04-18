@@ -4,7 +4,7 @@ import { useDocumentTitle } from "../components/DocumentTitle";
 export function About() {
   useDocumentTitle("About");
   return (
-    <div className="max-w-2xl prose-stone">
+    <div className="mx-auto max-w-2xl prose-stone">
       <h1 className="text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-100">
         About Corridor Map
       </h1>

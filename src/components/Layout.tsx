@@ -46,7 +46,7 @@ export function Layout() {
       </a>
 
       <header className="border-b border-stone-200 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:border-stone-800 dark:bg-stone-950/80 dark:supports-[backdrop-filter]:bg-stone-950/70">
-        <div className="mx-auto max-w-5xl px-6 py-3 flex items-center justify-between gap-4">
+        <div className="mx-auto max-w-4xl px-6 py-3 flex items-center justify-between gap-4">
           <Link
             to="/"
             className="flex items-center gap-2.5 font-semibold tracking-tight text-stone-900 dark:text-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-700 focus-visible:ring-offset-2 rounded-sm"
@@ -83,13 +83,13 @@ export function Layout() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="mx-auto w-full max-w-5xl flex-1 px-6 py-10 focus:outline-none"
+        className="mx-auto w-full max-w-4xl flex-1 px-6 py-10 focus:outline-none"
       >
         <Outlet />
       </main>
 
       <footer className="border-t border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-950">
-        <div className="mx-auto max-w-5xl px-6 py-6 text-xs text-stone-500 dark:text-stone-400 leading-relaxed grid gap-3 sm:grid-cols-[1fr_auto] sm:items-start">
+        <div className="mx-auto max-w-4xl px-6 py-6 text-xs text-stone-500 dark:text-stone-400 leading-relaxed grid gap-3 sm:grid-cols-[1fr_auto] sm:items-start">
           <div className="space-y-1.5">
             <p>
               <span className="font-medium text-stone-700 dark:text-stone-200">

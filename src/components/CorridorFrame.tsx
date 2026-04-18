@@ -15,7 +15,7 @@ type Props = {
 export function CorridorFrame({ title, status, headline, children }: Props) {
   useDocumentTitle(title);
   return (
-    <div>
+    <div className="mx-auto max-w-3xl">
       <div className="mb-6">
         <Link
           to="/map"

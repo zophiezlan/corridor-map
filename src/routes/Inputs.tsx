@@ -106,7 +106,7 @@ export function Inputs() {
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="mx-auto max-w-2xl">
       <h1 className="text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-100">
         Your situation
       </h1>

@@ -4,7 +4,7 @@ import { useDocumentTitle } from "../components/DocumentTitle";
 export function NotFound() {
   useDocumentTitle("Not found");
   return (
-    <div className="max-w-xl">
+    <div className="mx-auto max-w-xl">
       <p className="text-xs uppercase tracking-wide text-stone-500">404</p>
       <h1 className="mt-1 text-3xl font-semibold tracking-tight">
         Not a corridor we recognise.

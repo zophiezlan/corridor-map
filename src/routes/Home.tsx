@@ -17,7 +17,7 @@ export function Home() {
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="mx-auto max-w-2xl">
       <p className="mb-4 inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.14em] text-stone-500 dark:text-stone-400">
         <span
           aria-hidden
