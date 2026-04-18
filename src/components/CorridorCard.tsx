@@ -13,12 +13,12 @@ export function CorridorCard({ summary }: { summary: CorridorCardSummary }) {
       }`}
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-start gap-2 min-w-0">
           <span
-            className={`h-2 w-2 rounded-full flex-shrink-0 ${statusDotClass(summary.status)}`}
+            className={`h-2 w-2 rounded-full flex-shrink-0 mt-[0.45rem] ${statusDotClass(summary.status)}`}
             aria-hidden
           />
-          <h2 className="font-semibold tracking-tight text-stone-900 truncate">
+          <h2 className="font-semibold tracking-tight text-stone-900 leading-snug">
             {summary.name}
           </h2>
         </div>
