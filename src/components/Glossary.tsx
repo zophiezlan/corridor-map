@@ -20,6 +20,26 @@ const DEFINITIONS: Record<string, string> = {
   PHI: "Private Health Insurance.",
   ATO: "Australian Taxation Office.",
   LHC: "Lifetime Health Cover loading — a premium surcharge for taking out hospital cover after age 31.",
+  concessional:
+    "Concessional (pre-tax) contribution — money going into super before income tax is deducted. Taxed at 15% on the way in instead of your marginal rate.",
+  "non-concessional":
+    "Non-concessional (post-tax) contribution — money going into super from your take-home pay. No tax saving on the way in; a separate cap applies.",
+  "preservation age":
+    "The age you can first access your super. For anyone born after 1 July 1964, that's 60.",
+  "Division 293":
+    "An extra 15% tax on concessional super contributions if your total income + super contributions exceeds $250,000 — only bites at very high incomes.",
+  "marginal rate":
+    "The income-tax rate applied to your next dollar of income. Higher than your average rate because tax is progressive — each bracket taxed at its own rate.",
+  "salary sacrifice":
+    "An arrangement with payroll where part of your gross salary goes somewhere else (usually super) before tax is calculated, reducing your taxable income.",
+  "salary packaging":
+    "An arrangement where part of your salary is paid as non-cash benefits (mortgage, rent, card, meals). FBT-exempt for PBI/NFP workers up to a capped amount, saving income tax at your marginal rate.",
+  "taxable income":
+    "Gross income minus allowable deductions and pre-tax salary sacrifice. What the ATO actually applies tax brackets to.",
+  "gross-up factor":
+    "A multiplier (1.8868 for FBT-exempt benefits) that converts the real dollar value of packaged benefits into the RFBA figure on your payment summary.",
+  deduction:
+    "An expense the ATO allows you to subtract from your taxable income. Saves you your marginal rate on each dollar deducted (e.g. ~32c per $1 at $90k).",
 };
 
 type Props = {
@@ -43,7 +63,7 @@ export function Term({ term, definition, children }: Props) {
       <abbr
         title={def}
         aria-describedby={descId}
-        className="cursor-help border-b border-dotted border-stone-400 decoration-dotted underline-offset-4 no-underline"
+        className="cursor-help border-b border-dotted border-stone-400 decoration-dotted underline-offset-4 no-underline dark:border-stone-500"
       >
         {text}
       </abbr>

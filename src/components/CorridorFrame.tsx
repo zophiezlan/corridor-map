@@ -19,7 +19,7 @@ export function CorridorFrame({ title, status, headline, children }: Props) {
       <div className="mb-6">
         <Link
           to="/map"
-          className="inline-flex items-center gap-1 text-sm text-stone-500 hover:text-stone-900 transition-colors"
+          className="inline-flex items-center gap-1 text-sm text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100 transition-colors"
         >
           &larr; Back to map
         </Link>
@@ -27,10 +27,10 @@ export function CorridorFrame({ title, status, headline, children }: Props) {
 
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-stone-900 leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-stone-900 dark:text-stone-100 leading-tight">
             {title}
           </h1>
-          <p className="mt-3 font-mono tabular-nums text-2xl text-stone-900 tracking-tight">
+          <p className="mt-3 font-mono tabular-nums text-2xl text-stone-900 dark:text-stone-100 tracking-tight">
             {headline}
           </p>
         </div>
@@ -39,7 +39,7 @@ export function CorridorFrame({ title, status, headline, children }: Props) {
 
       <div className="mt-10 space-y-10">{children}</div>
 
-      <p className="mt-12 text-[11px] font-mono uppercase tracking-[0.14em] text-stone-400">
+      <p className="mt-12 text-[11px] font-mono uppercase tracking-[0.14em] text-stone-400 dark:text-stone-500">
         All figures apply to {FINANCIAL_YEAR_LABEL}
       </p>
     </div>
@@ -51,10 +51,10 @@ type SectionProps = { title: string; children: ReactNode };
 export function Section({ title, children }: SectionProps) {
   return (
     <section>
-      <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-stone-500">
+      <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-stone-500 dark:text-stone-400">
         {title}
       </h2>
-      <div className="mt-3 text-stone-800 leading-relaxed space-y-3">
+      <div className="mt-3 text-stone-800 dark:text-stone-200 leading-relaxed space-y-3">
         {children}
       </div>
     </section>
@@ -66,8 +66,10 @@ type MathRowProps = { label: string; value: ReactNode; subtle?: boolean };
 export function MathRow({ label, value, subtle }: MathRowProps) {
   return (
     <div
-      className={`flex items-baseline justify-between border-b border-dashed border-stone-200 py-1.5 ${
-        subtle ? "text-stone-500" : "text-stone-900"
+      className={`flex items-baseline justify-between border-b border-dashed border-stone-200 dark:border-stone-800 py-1.5 ${
+        subtle
+          ? "text-stone-500 dark:text-stone-400"
+          : "text-stone-900 dark:text-stone-100"
       }`}
     >
       <span className="text-sm">{label}</span>

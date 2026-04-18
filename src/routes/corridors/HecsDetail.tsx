@@ -21,8 +21,15 @@ export function HecsDetail() {
       >
         <Section title="Not applicable">
           <p>
-            You didn't flag a HECS/HELP/STSL debt, so this corridor doesn't
-            apply. If you do have a debt, go back to inputs and toggle it on.
+            You haven&rsquo;t indicated a HECS/HELP/STSL balance, so this
+            corridor doesn&rsquo;t apply. If you do have one, head back to{" "}
+            <a
+              href="/inputs"
+              className="underline underline-offset-2 decoration-stone-300 hover:decoration-stone-900"
+            >
+              inputs
+            </a>{" "}
+            and switch it on.
           </p>
         </Section>
       </CorridorFrame>
@@ -35,6 +42,22 @@ export function HecsDetail() {
       status={summary.status}
       headline={summary.headline}
     >
+      <Section title="In plain terms">
+        <p>
+          HECS/HELP/STSL are Australia&rsquo;s study-loan schemes, repaid
+          through payroll once your income crosses a threshold. There&rsquo;s no
+          interest; the balance is indexed to inflation each year. Nothing is
+          owed while you&rsquo;re below the threshold, and nothing&rsquo;s ever
+          owed beyond your income &mdash; it&rsquo;s not a debt in the ordinary
+          sense.
+        </p>
+        <p>
+          This page shows the percentage of your pay going to compulsory
+          repayment this year, and how packaging / super sacrifice interacts
+          with the threshold calculation.
+        </p>
+      </Section>
+
       <Section title="Your repayment income">
         <div>
           <MathRow
@@ -108,15 +131,17 @@ export function HecsDetail() {
       <Section title="What the tax system is steering">
         <p>
           Since the 2024 reforms, voluntary extra repayments no longer attract a
-          discount. The only reasons to pay extra are: you want the debt gone
-          psychologically, you're about to leave Australia, or you're planning a
-          mortgage application and the servicing calculator treats HELP as an
-          ongoing commitment.
+          discount &mdash; there&rsquo;s no tax-side incentive to pay faster
+          than the schedule. Paying extra might still make sense for reasons
+          outside the tax system: you want the balance gone for peace of mind,
+          you&rsquo;re leaving Australia for an extended period, or you&rsquo;re
+          applying for a mortgage (some lenders treat HELP as an ongoing
+          commitment that reduces borrowing capacity).
         </p>
       </Section>
 
       <Section title="Gotchas">
-        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700">
+        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700 dark:text-stone-300">
           <li>
             Salary packaging inflates your HECS repayment income. Packaging
             $15,900 adds ~$30,000 to the income used to calculate your

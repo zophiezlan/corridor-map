@@ -12,12 +12,19 @@ export function FhssDetail() {
       status={summary.status}
       headline={summary.headline}
     >
-      <Section title="What it is">
+      <Section title="In plain terms">
         <p>
-          FHSS lets you make voluntary concessional or non-concessional
-          contributions into super, then later release them (plus deemed
-          earnings, minus contributions tax) toward a first home deposit.
+          <strong>FHSS</strong> (First Home Super Saver) is the one carve-out
+          that lets you access super before preservation age. You make voluntary
+          contributions into super, get the lower tax rate on the way in, and
+          later release those dollars (plus deemed earnings) toward a first-home
+          deposit. Employer contributions don&rsquo;t count &mdash; only
+          voluntary ones.
         </p>
+      </Section>
+
+      <Section title="The specifics">
+        <p>The mechanics, in a nutshell:</p>
         <ul className="list-disc list-inside space-y-1 text-sm mt-2">
           <li>
             Release limit: $15,000 per FY, $50,000 total across all years.
@@ -46,18 +53,25 @@ export function FhssDetail() {
       </Section>
 
       <Section title="Example math">
-        <p className="text-sm text-stone-700">
-          On a $90k salary sacrificing $10k/yr into FHSS for 3 years:
+        <p className="text-sm text-stone-700 dark:text-stone-300">
+          On a $90k salary sacrificing $10k/yr into FHSS for 3 years.
+          &ldquo;MTR&rdquo; means marginal tax rate &mdash; the rate on your
+          next dollar of income.
         </p>
-        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700">
+        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700 dark:text-stone-300">
           <li>
             Tax saving: ~($10k × 32% MTR) − ($10k × 15% contributions tax) =
-            ~$1,700/yr.
+            ~$1,700/yr. The 15% is the flat rate super pays on concessional
+            contributions going in; the saving is the difference vs your
+            marginal rate.
           </li>
-          <li>After 3 years: ~$30k contributed + small deemed earnings.</li>
           <li>
-            Released amount taxed at (marginal rate − 30%) — less than it would
-            have been outside super.
+            After 3 years: ~$30k contributed + small deemed earnings (the ATO
+            applies a notional interest rate rather than actual returns).
+          </li>
+          <li>
+            Released amount taxed at (marginal rate − 30%) &mdash; less than the
+            same money would have been taxed as ordinary salary.
           </li>
           <li>
             Net: a meaningfully larger deposit than saving the same dollars

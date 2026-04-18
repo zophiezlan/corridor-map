@@ -28,6 +28,21 @@ export function PackagingGeneralDetail() {
       status={summary.status}
       headline={summary.headline}
     >
+      <Section title="In plain terms">
+        <p>
+          <strong>Salary packaging</strong> is an arrangement with payroll where
+          part of your gross pay goes out as non-cash benefits (mortgage, rent,
+          card spending) instead of as taxed salary. For PBI and public-hospital
+          workers, up to a yearly cap is exempt from <strong>FBT</strong>{" "}
+          (Fringe Benefits Tax) &mdash; so those dollars effectively skip income
+          tax entirely, saving you your marginal rate on each one.
+        </p>
+        <p>
+          This page shows how much of your cap you&rsquo;re using and the tax
+          saving if you topped up to the cap.
+        </p>
+      </Section>
+
       <Section title="Where you are">
         <p>{summary.insight}</p>
         {derived.generalPackagingCap > 0 && (
@@ -84,41 +99,41 @@ export function PackagingGeneralDetail() {
         </p>
       </Section>
 
-      <Section title="Next actions">
+      <Section title="If you want to act on this">
         {additional > 0 && (
           <ul className="list-disc list-inside space-y-1 text-sm">
             <li>
-              Talk to your payroll provider or packaging administrator (Maxxia,
-              Smart, AccessPay, etc.) about lifting your packaged amount by{" "}
-              <Money value={additional} round10 />.
+              Your payroll team or packaging administrator (Maxxia, Smart,
+              AccessPay, etc.) is the starting point for lifting your packaged
+              amount by up to <Money value={additional} round10 />.
             </li>
             <li>
-              The saving is approximate — packaging pushes you down a tax
-              bracket in some cases, which changes the marginal rate. The{" "}
-              <Money value={annualSaving} round10 /> figure is a lower-bound
-              ballpark.
+              The saving above is approximate &mdash; packaging sometimes pushes
+              you down a tax bracket, which changes your marginal rate, so{" "}
+              <Money value={annualSaving} round10 /> is a lower-bound ballpark.
             </li>
             <li>
-              Know what you're packaging into. Rent/mortgage/general card are
-              the most common. Some providers charge admin fees; the fee is
-              usually trivial relative to the saving.
+              Packaging only makes sense if you have eligible spending anyway
+              (rent/mortgage/general card are the common buckets). Most
+              providers charge a small admin fee &mdash; usually trivial
+              compared with the tax saving, but worth checking.
             </li>
           </ul>
         )}
         {additional === 0 && derived.generalPackagingCap > 0 && (
-          <p>Cap fully used. No further action on this corridor.</p>
+          <p>Your cap is fully used &mdash; nothing to do on this corridor.</p>
         )}
         {derived.generalPackagingCap === 0 && (
           <p>
-            Your employer type doesn't offer FBT-exempt packaging. If you're
-            unsure, ask HR — sometimes an NFP qualifies as a PBI without the
-            employer marketing it strongly.
+            Your employer type doesn&rsquo;t offer FBT-exempt packaging. If
+            you&rsquo;re unsure, HR is worth asking &mdash; some NFPs qualify as
+            a PBI without the employer marketing it strongly.
           </p>
         )}
       </Section>
 
       <Section title="Gotchas">
-        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700">
+        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700 dark:text-stone-300">
           <li>
             The packaged amount grosses up into your <em>MLS income</em> and{" "}
             <em>HECS repayment income</em> — check both corridors before

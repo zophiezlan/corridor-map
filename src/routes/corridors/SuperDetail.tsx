@@ -30,6 +30,25 @@ export function SuperDetail() {
       status={summary.status}
       headline={summary.headline}
     >
+      <Section title="In plain terms">
+        <p>
+          <strong>Super</strong> (superannuation) is Australia&rsquo;s
+          retirement savings system &mdash; money set aside now that you
+          can&rsquo;t access until you reach <strong>preservation age</strong>{" "}
+          (60 for most people). <strong>Concessional</strong> (pre-tax)
+          contributions &mdash; including your employer&rsquo;s SG and any
+          voluntary salary sacrifice &mdash; are taxed at a flat 15% going in,
+          rather than at your marginal income-tax rate. That gap is the headline
+          tax advantage.
+        </p>
+        <p>
+          There&rsquo;s an annual cap on concessional contributions (currently $
+          {(30_000).toLocaleString("en-AU")}). Going over it triggers extra tax,
+          so this page shows how much of your cap is in use and the saving if
+          you added more up to the cap.
+        </p>
+      </Section>
+
       <Section title="Where you are">
         <p>{summary.insight}</p>
         <ProgressBar
@@ -106,9 +125,9 @@ export function SuperDetail() {
         </p>
       </Section>
 
-      <Section title="Next actions">
+      <Section title="If you want to act on this">
         {shortHorizon && (
-          <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+          <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
             You flagged a first-home goal in the next 1–3 years. Super sacrifice
             locks money up until preservation age. FHSS is the one carve-out —
             up to $50k of voluntary contributions can be released for a
@@ -142,7 +161,7 @@ export function SuperDetail() {
       </Section>
 
       <Section title="Gotchas">
-        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700">
+        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700 dark:text-stone-300">
           <li>
             Voluntary salary sacrifice counts toward MLS income and HECS
             repayment income — the super corridor can push you up a tier in

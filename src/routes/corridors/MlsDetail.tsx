@@ -69,10 +69,27 @@ export function MlsDetail() {
       status={summary.status}
       headline={summary.headline}
     >
+      <Section title="In plain terms">
+        <p>
+          <strong>MLS</strong> (Medicare Levy Surcharge) is an extra
+          1&ndash;1.5% tax on your income, charged only if you earn above a
+          threshold and don&rsquo;t hold private hospital cover. It&rsquo;s how
+          the government pushes higher earners onto private health funds so
+          public hospitals aren&rsquo;t the only option. Holding complying
+          hospital cover (extras-only doesn&rsquo;t count) switches the
+          surcharge off.
+        </p>
+        <p>
+          This page shows the tier you&rsquo;re in and &mdash; if you
+          don&rsquo;t have cover &mdash; the annual premium at which taking out
+          cover would cost less than the surcharge you&rsquo;d otherwise pay.
+        </p>
+      </Section>
+
       <Section title="Where you are">
         <p>{summary.insight}</p>
         <div
-          className="mt-4 h-52 w-full rounded-md border border-stone-200 bg-white p-3"
+          className="mt-4 h-52 w-full rounded-md border border-stone-200 bg-white p-3 dark:border-stone-800 dark:bg-stone-900"
           role="img"
           aria-label={chartAriaLabel}
         >
@@ -227,7 +244,7 @@ export function MlsDetail() {
         </p>
       </Section>
 
-      <Section title="Next actions">
+      <Section title="If you want to act on this">
         {!inputs.hasPrivateHospitalCover && derived.mlsTier !== "Base" && (
           <p>
             Compare compliant hospital policies with a net cost up to ~
@@ -260,7 +277,7 @@ export function MlsDetail() {
       </Section>
 
       <Section title="Gotchas">
-        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700">
+        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700 dark:text-stone-300">
           <li>
             Salary packaging grosses up your income for MLS purposes via RFBA.
             Packaging $15,900 adds ~$30,000 to MLS income.

@@ -10,12 +10,16 @@ export function DeductionsDetail() {
       status={summary.status}
       headline={summary.headline}
     >
-      <Section title="Why this is on the map">
+      <Section title="In plain terms">
         <p>
-          Deductions aren't a tax corridor the same way packaging or MLS are —
-          they're handled at tax-return time, not structurally. But the common
-          PBI/NFP-worker deductions get overlooked often enough to deserve a
-          prompt.
+          A <strong>deduction</strong> is an expense the ATO lets you subtract
+          from your taxable income at tax-return time. Each dollar deducted
+          saves you your marginal rate on that dollar &mdash; roughly 32c per $1
+          at $90k income. Deductions aren&rsquo;t a corridor in the same
+          structural sense as packaging or MLS (they&rsquo;re claimed after the
+          year, not arranged with payroll), but PBI/NFP workers often
+          under-claim the common ones, so this page is a checklist rather than a
+          calculator.
         </p>
       </Section>
 
@@ -53,7 +57,7 @@ export function DeductionsDetail() {
       </Section>
 
       <Section title="Categories often claimed wrongly">
-        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700">
+        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700 dark:text-stone-300">
           <li>
             <strong>Commute.</strong> Normal home-to-work travel isn't
             deductible, even if you carry work items.

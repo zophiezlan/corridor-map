@@ -5,21 +5,30 @@ export function About() {
   useDocumentTitle("About");
   return (
     <div className="max-w-2xl prose-stone">
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="text-3xl font-semibold tracking-tight text-stone-900 dark:text-stone-100">
         About Corridor Map
       </h1>
 
-      <section className="mt-6 space-y-3 text-stone-700 leading-relaxed">
-        <h2 className="text-lg font-semibold text-stone-900 mt-6">
+      <section className="mt-6 space-y-3 text-stone-700 dark:text-stone-300 leading-relaxed">
+        <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mt-6">
           Who this is for
         </h2>
         <p>
-          Workers at Australian PBIs and similar not-for-profits who can access
-          FBT-exempt salary packaging. Built by someone in that cohort for
-          people in that cohort.
+          Built for workers at Australian PBIs, public hospitals, and rebatable
+          NFPs who can access FBT-exempt salary packaging &mdash; that cohort
+          sees every corridor. Designed by someone in that cohort for people in
+          that cohort.
+        </p>
+        <p>
+          For-profit employees are welcome too: every corridor except salary
+          packaging applies identically (MLS, super, HECS, first-home super
+          saver, work-related deductions). The packaging corridors will show as
+          &ldquo;not available&rdquo; &mdash; that mechanism is an NFP-sector
+          carve-out, so there&rsquo;s nothing to optimise on the for-profit
+          side.
         </p>
 
-        <h2 className="text-lg font-semibold text-stone-900 mt-6">
+        <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mt-6">
           What this is
         </h2>
         <p>
@@ -32,7 +41,7 @@ export function About() {
           structured context and decision prompts.
         </p>
 
-        <h2 className="text-lg font-semibold text-stone-900 mt-6">
+        <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mt-6">
           What this is NOT
         </h2>
         <ul className="list-disc list-inside space-y-1">
@@ -42,7 +51,7 @@ export function About() {
           <li>Not a replacement for a real financial advisor</li>
         </ul>
 
-        <h2 className="text-lg font-semibold text-stone-900 mt-6">
+        <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mt-6">
           Methodology
         </h2>
         <p>
@@ -60,7 +69,9 @@ export function About() {
           or an accountant before acting.
         </p>
 
-        <h2 className="text-lg font-semibold text-stone-900 mt-6">Privacy</h2>
+        <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mt-6">
+          Privacy
+        </h2>
         <p>
           Your inputs never leave your browser. There is no account, no server,
           no analytics, no tracking. Inputs are held in your browser's session
@@ -68,7 +79,9 @@ export function About() {
           close the tab.
         </p>
 
-        <h2 className="text-lg font-semibold text-stone-900 mt-6">Colophon</h2>
+        <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mt-6">
+          Colophon
+        </h2>
         <p>
           Built by Clancy. React + TypeScript + Tailwind + Vite, deployed on
           Vercel. Calculations live in a single module of pure functions with

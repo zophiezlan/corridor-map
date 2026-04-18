@@ -23,6 +23,20 @@ export function PackagingMeDetail() {
       status={summary.status}
       headline={summary.headline}
     >
+      <Section title="In plain terms">
+        <p>
+          <strong>Meal & entertainment (M&E) packaging</strong> is a separate
+          FBT-exempt bucket on top of the general cap, capped at $2,650/yr. Same
+          mechanism as general packaging &mdash; pre-tax dollars for eligible
+          spending &mdash; but restricted to restaurant meals, catering, venue
+          hire, and the like.
+        </p>
+        <p>
+          This page shows how much of the M&E cap you&rsquo;re using and the
+          saving if you topped up to it.
+        </p>
+      </Section>
+
       <Section title="Where you are">
         <p>{summary.insight}</p>
         {derived.mePackagingCap > 0 && (
@@ -70,7 +84,7 @@ export function PackagingMeDetail() {
         </p>
       </Section>
 
-      <Section title="Next actions">
+      <Section title="If you want to act on this">
         <ul className="list-disc list-inside space-y-1 text-sm">
           <li>
             Only worth using if you'd eat out / cater anyway. If your meal
@@ -91,7 +105,7 @@ export function PackagingMeDetail() {
       </Section>
 
       <Section title="Gotchas">
-        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700">
+        <ul className="list-disc list-inside space-y-1 text-sm text-stone-700 dark:text-stone-300">
           <li>
             Counts toward RFBA alongside general packaging — inflates MLS and
             HECS repayment income the same way.
