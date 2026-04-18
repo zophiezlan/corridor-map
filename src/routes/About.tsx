@@ -1,6 +1,8 @@
 import { FINANCIAL_YEAR_LABEL } from '../calc/constants';
+import { useDocumentTitle } from '../components/DocumentTitle';
 
 export function About() {
+  useDocumentTitle('About');
   return (
     <div className="max-w-2xl prose-stone">
       <h1 className="text-3xl font-semibold tracking-tight">About Corridor Map</h1>

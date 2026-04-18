@@ -1,19 +1,35 @@
+import { useId } from 'react';
 import type { ChangeEvent, ReactNode } from 'react';
 
 type FieldProps = {
   label: string;
   hint?: ReactNode;
-  children: ReactNode;
-  htmlFor?: string;
+  /** A render-prop: receives the id/htmlFor to attach to the control. */
+  children: (id: string) => ReactNode;
 };
 
-export function Field({ label, hint, children, htmlFor }: FieldProps) {
+/**
+ * Field is a render-prop component so the label's htmlFor and the input's id
+ * always line up. Pass `(id) => <NumberInput id={id} .../>`.
+ */
+export function Field({ label, hint, children }: FieldProps) {
+  const id = useId();
+  const hintId = `${id}-hint`;
   return (
-    <label htmlFor={htmlFor} className="block">
-      <span className="block text-sm font-medium text-stone-900">{label}</span>
-      {hint && <span className="mt-0.5 block text-xs text-stone-500">{hint}</span>}
-      <div className="mt-1.5">{children}</div>
-    </label>
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium text-stone-900">
+        {label}
+      </label>
+      {hint && (
+        <span id={hintId} className="mt-0.5 block text-xs text-stone-600">
+          {hint}
+        </span>
+      )}
+      <div className="mt-1.5">
+        {/* Render-prop receives id; children pass aria-describedby in hint mode. */}
+        {children(id)}
+      </div>
+    </div>
   );
 }
 
@@ -28,6 +44,7 @@ type NumberInputProps = {
   prefix?: string;
   suffix?: string;
   className?: string;
+  ariaLabel?: string;
 };
 
 export function NumberInput({
@@ -41,16 +58,21 @@ export function NumberInput({
   prefix,
   suffix,
   className,
+  ariaLabel,
 }: NumberInputProps) {
   return (
     <div className={`relative flex items-stretch ${className ?? ''}`}>
       {prefix && (
-        <span className="inline-flex items-center rounded-l-md border border-r-0 border-stone-300 bg-stone-50 px-3 text-sm text-stone-600">
+        <span
+          className="inline-flex items-center rounded-l-md border border-r-0 border-stone-300 bg-stone-50 px-3 text-sm text-stone-600"
+          aria-hidden
+        >
           {prefix}
         </span>
       )}
       <input
         id={id}
+        aria-label={ariaLabel}
         type="number"
         inputMode="decimal"
         value={value ?? ''}
@@ -62,12 +84,15 @@ export function NumberInput({
           const v = e.target.value;
           onChange(v === '' ? 0 : Number(v));
         }}
-        className={`block w-full border border-stone-300 px-3 py-2 text-sm font-mono tabular-nums shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500 ${
+        className={`block w-full border border-stone-300 px-3 py-2 text-sm font-mono tabular-nums shadow-sm focus:border-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-700/30 ${
           prefix ? '' : 'rounded-l-md'
         } ${suffix ? '' : 'rounded-r-md'}`}
       />
       {suffix && (
-        <span className="inline-flex items-center rounded-r-md border border-l-0 border-stone-300 bg-stone-50 px-3 text-sm text-stone-600">
+        <span
+          className="inline-flex items-center rounded-r-md border border-l-0 border-stone-300 bg-stone-50 px-3 text-sm text-stone-600"
+          aria-hidden
+        >
           {suffix}
         </span>
       )}
@@ -88,7 +113,7 @@ export function Select<T extends string>({ id, value, onChange, options }: Selec
       id={id}
       value={value}
       onChange={(e) => onChange(e.target.value as T)}
-      className="block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+      className="block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-700/30"
     >
       {options.map((opt) => (
         <option key={opt.value} value={opt.value}>
@@ -107,18 +132,26 @@ type ToggleProps = {
 };
 
 export function Toggle({ checked, onChange, label, hint }: ToggleProps) {
+  const id = useId();
+  const hintId = `${id}-hint`;
   return (
-    <label className="flex items-start gap-3 cursor-pointer">
+    <div className="flex items-start gap-3">
       <input
+        id={id}
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-stone-500"
+        aria-describedby={hint ? hintId : undefined}
+        className="mt-0.5 h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-2 focus:ring-stone-700/40 focus:ring-offset-1"
       />
-      <div>
+      <label htmlFor={id} className="cursor-pointer">
         <span className="block text-sm font-medium text-stone-900">{label}</span>
-        {hint && <span className="mt-0.5 block text-xs text-stone-500">{hint}</span>}
-      </div>
-    </label>
+        {hint && (
+          <span id={hintId} className="mt-0.5 block text-xs text-stone-600">
+            {hint}
+          </span>
+        )}
+      </label>
+    </div>
   );
 }

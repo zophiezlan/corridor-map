@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Field, NumberInput, Select, Toggle } from '../components/Fields';
-import { useInputs } from '../state/InputsContext';
+import { useDocumentTitle } from '../components/DocumentTitle';
+import { useInputs, DEFAULT_INPUTS } from '../state/InputsContext';
 import type { EmployerType } from '../calc/constants';
-import type { PropertyGoal } from '../calc/types';
+import type { PropertyGoal, UserInputs } from '../calc/types';
 
 const EMPLOYER_OPTIONS: Array<{ value: EmployerType; label: string }> = [
   { value: 'PBI', label: 'PBI (charity, DGR-endorsed NFP) — $15,900 cap' },
@@ -21,7 +22,8 @@ const PROPERTY_GOAL_OPTIONS: Array<{ value: PropertyGoal; label: string }> = [
 ];
 
 export function Inputs() {
-  const { inputs, setInput } = useInputs();
+  useDocumentTitle('Your situation');
+  const { inputs, setInput, reset } = useInputs();
   const navigate = useNavigate();
   const [showAdvanced, setShowAdvanced] = useState(
     inputs.netFinancialInvestmentLosses > 0 ||
@@ -35,15 +37,26 @@ export function Inputs() {
   const packagingAvailable =
     inputs.employerType === 'PBI' || inputs.employerType === 'Public Hospital';
 
+  const isDirty = JSON.stringify(inputs) !== JSON.stringify(DEFAULT_INPUTS as UserInputs);
+
   function handleSubmit() {
     if (!canSubmit) return;
     navigate('/map');
   }
 
+  function handleReset() {
+    if (!isDirty) return;
+    if (window.confirm('Reset all inputs to defaults? This clears any values you\'ve entered.')) {
+      reset();
+      setShowAge(false);
+      setShowAdvanced(false);
+    }
+  }
+
   return (
     <div className="max-w-2xl">
       <h1 className="text-3xl font-semibold tracking-tight">Your situation</h1>
-      <p className="mt-2 text-stone-600">
+      <p className="mt-2 text-stone-700">
         All fields stay on your device. Nothing is sent anywhere. You can change any of
         these later.
       </p>
@@ -62,14 +75,17 @@ export function Inputs() {
             label="Gross annual salary"
             hint="Before tax, before salary packaging. Look for 'gross pay' on a payslip × number of pay periods."
           >
-            <NumberInput
-              value={inputs.grossAnnualSalary || null}
-              onChange={(v) => setInput('grossAnnualSalary', v)}
-              prefix="$"
-              min={0}
-              step={1000}
-              placeholder="e.g. 95000"
-            />
+            {(id) => (
+              <NumberInput
+                id={id}
+                value={inputs.grossAnnualSalary || null}
+                onChange={(v) => setInput('grossAnnualSalary', v)}
+                prefix="$"
+                min={0}
+                step={1000}
+                placeholder="e.g. 95000"
+              />
+            )}
           </Field>
 
           <div>
@@ -85,13 +101,16 @@ export function Inputs() {
             {showAge && (
               <div className="mt-3 pl-7">
                 <Field label="Age">
-                  <NumberInput
-                    value={inputs.age}
-                    onChange={(v) => setInput('age', v)}
-                    min={18}
-                    max={64}
-                    suffix="years"
-                  />
+                  {(id) => (
+                    <NumberInput
+                      id={id}
+                      value={inputs.age}
+                      onChange={(v) => setInput('age', v)}
+                      min={18}
+                      max={64}
+                      suffix="years"
+                    />
+                  )}
                 </Field>
               </div>
             )}
@@ -102,11 +121,14 @@ export function Inputs() {
           <h2 className="text-lg font-semibold text-stone-900">Employer</h2>
 
           <Field label="Employer type" hint="This determines your salary packaging caps.">
-            <Select
-              value={inputs.employerType}
-              onChange={(v) => setInput('employerType', v)}
-              options={EMPLOYER_OPTIONS}
-            />
+            {(id) => (
+              <Select
+                id={id}
+                value={inputs.employerType}
+                onChange={(v) => setInput('employerType', v)}
+                options={EMPLOYER_OPTIONS}
+              />
+            )}
           </Field>
 
           {packagingAvailable && (
@@ -115,28 +137,34 @@ export function Inputs() {
                 label="Current general packaging"
                 hint="The post-tax dollar amount you package each year (mortgage, rent, card — not meals). Zero if you don't package."
               >
-                <NumberInput
-                  value={inputs.currentGeneralPackaging || null}
-                  onChange={(v) => setInput('currentGeneralPackaging', v)}
-                  prefix="$"
-                  min={0}
-                  step={100}
-                  placeholder="0"
-                />
+                {(id) => (
+                  <NumberInput
+                    id={id}
+                    value={inputs.currentGeneralPackaging || null}
+                    onChange={(v) => setInput('currentGeneralPackaging', v)}
+                    prefix="$"
+                    min={0}
+                    step={100}
+                    placeholder="0"
+                  />
+                )}
               </Field>
 
               <Field
                 label="Current meal & entertainment packaging"
                 hint="Separate cap. Often zero unless you actively use it."
               >
-                <NumberInput
-                  value={inputs.currentMEPackaging || null}
-                  onChange={(v) => setInput('currentMEPackaging', v)}
-                  prefix="$"
-                  min={0}
-                  step={100}
-                  placeholder="0"
-                />
+                {(id) => (
+                  <NumberInput
+                    id={id}
+                    value={inputs.currentMEPackaging || null}
+                    onChange={(v) => setInput('currentMEPackaging', v)}
+                    prefix="$"
+                    min={0}
+                    step={100}
+                    placeholder="0"
+                  />
+                )}
               </Field>
             </>
           )}
@@ -149,14 +177,17 @@ export function Inputs() {
             label="Extra voluntary super sacrifice per year"
             hint="Concessional contributions on top of the 12% employer Super Guarantee. Zero is fine — most people's default."
           >
-            <NumberInput
-              value={inputs.currentSuperSacrifice || null}
-              onChange={(v) => setInput('currentSuperSacrifice', v)}
-              prefix="$"
-              min={0}
-              step={500}
-              placeholder="0"
-            />
+            {(id) => (
+              <NumberInput
+                id={id}
+                value={inputs.currentSuperSacrifice || null}
+                onChange={(v) => setInput('currentSuperSacrifice', v)}
+                prefix="$"
+                min={0}
+                step={500}
+                placeholder="0"
+              />
+            )}
           </Field>
         </section>
 
@@ -178,14 +209,17 @@ export function Inputs() {
               label="Annual premium"
               hint="What you actually pay. If you get the rebate as reduced premium, enter that reduced amount."
             >
-              <NumberInput
-                value={inputs.privateHealthPremiumAnnual}
-                onChange={(v) => setInput('privateHealthPremiumAnnual', v)}
-                prefix="$"
-                min={0}
-                step={50}
-                placeholder="e.g. 1800"
-              />
+              {(id) => (
+                <NumberInput
+                  id={id}
+                  value={inputs.privateHealthPremiumAnnual}
+                  onChange={(v) => setInput('privateHealthPremiumAnnual', v)}
+                  prefix="$"
+                  min={0}
+                  step={50}
+                  placeholder="e.g. 1800"
+                />
+              )}
             </Field>
           )}
         </section>
@@ -201,14 +235,17 @@ export function Inputs() {
 
           {inputs.hasHECS && (
             <Field label="Current balance (optional)">
-              <NumberInput
-                value={inputs.hecsBalance}
-                onChange={(v) => setInput('hecsBalance', v)}
-                prefix="$"
-                min={0}
-                step={1000}
-                placeholder="e.g. 25000"
-              />
+              {(id) => (
+                <NumberInput
+                  id={id}
+                  value={inputs.hecsBalance}
+                  onChange={(v) => setInput('hecsBalance', v)}
+                  prefix="$"
+                  min={0}
+                  step={1000}
+                  placeholder="e.g. 25000"
+                />
+              )}
             </Field>
           )}
         </section>
@@ -220,11 +257,14 @@ export function Inputs() {
             label="First-home property goal"
             hint="Affects how super recommendations are framed — super locks money up."
           >
-            <Select
-              value={inputs.propertyGoal}
-              onChange={(v) => setInput('propertyGoal', v)}
-              options={PROPERTY_GOAL_OPTIONS}
-            />
+            {(id) => (
+              <Select
+                id={id}
+                value={inputs.propertyGoal}
+                onChange={(v) => setInput('propertyGoal', v)}
+                options={PROPERTY_GOAL_OPTIONS}
+              />
+            )}
           </Field>
         </section>
 
@@ -232,79 +272,102 @@ export function Inputs() {
           <button
             type="button"
             onClick={() => setShowAdvanced((v) => !v)}
-            className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2"
+            aria-expanded={showAdvanced}
+            className="text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2 focus:outline-none focus:ring-2 focus:ring-stone-700/40 focus:ring-offset-2 rounded"
           >
             {showAdvanced ? 'Hide advanced inputs' : 'Advanced inputs'}
           </button>
 
           {showAdvanced && (
             <div className="mt-5 space-y-5 rounded-md border border-stone-200 bg-white p-5">
-              <p className="text-xs text-stone-500">
+              <p className="text-xs text-stone-600">
                 Most users leave these as zero. They improve the accuracy of MLS and HECS
                 repayment income.
               </p>
 
               <Field label="Net financial investment losses" hint="From share/margin loans etc.">
-                <NumberInput
-                  value={inputs.netFinancialInvestmentLosses || null}
-                  onChange={(v) => setInput('netFinancialInvestmentLosses', v)}
-                  prefix="$"
-                  min={0}
-                  step={100}
-                />
+                {(id) => (
+                  <NumberInput
+                    id={id}
+                    value={inputs.netFinancialInvestmentLosses || null}
+                    onChange={(v) => setInput('netFinancialInvestmentLosses', v)}
+                    prefix="$"
+                    min={0}
+                    step={100}
+                  />
+                )}
               </Field>
 
               <Field label="Net rental property losses" hint="Negative gearing amount.">
-                <NumberInput
-                  value={inputs.netRentalPropertyLosses || null}
-                  onChange={(v) => setInput('netRentalPropertyLosses', v)}
-                  prefix="$"
-                  min={0}
-                  step={100}
-                />
+                {(id) => (
+                  <NumberInput
+                    id={id}
+                    value={inputs.netRentalPropertyLosses || null}
+                    onChange={(v) => setInput('netRentalPropertyLosses', v)}
+                    prefix="$"
+                    min={0}
+                    step={100}
+                  />
+                )}
               </Field>
 
               <Field
                 label="Deductible personal super contributions"
                 hint="Non-concessional contributions for which you'll submit a notice-of-intent-to-claim."
               >
-                <NumberInput
-                  value={inputs.deductiblePersonalSuperContributions || null}
-                  onChange={(v) => setInput('deductiblePersonalSuperContributions', v)}
-                  prefix="$"
-                  min={0}
-                  step={100}
-                />
+                {(id) => (
+                  <NumberInput
+                    id={id}
+                    value={inputs.deductiblePersonalSuperContributions || null}
+                    onChange={(v) => setInput('deductiblePersonalSuperContributions', v)}
+                    prefix="$"
+                    min={0}
+                    step={100}
+                  />
+                )}
               </Field>
 
               <Field label="Employer Super Guarantee rate" hint="2025-26 default is 12%. Some employers are higher.">
-                <NumberInput
-                  value={inputs.employerSGRate * 100}
-                  onChange={(v) => setInput('employerSGRate', v / 100)}
-                  suffix="%"
-                  min={0}
-                  max={30}
-                  step={0.5}
-                />
+                {(id) => (
+                  <NumberInput
+                    id={id}
+                    value={inputs.employerSGRate * 100}
+                    onChange={(v) => setInput('employerSGRate', v / 100)}
+                    suffix="%"
+                    min={0}
+                    max={30}
+                    step={0.5}
+                  />
+                )}
               </Field>
             </div>
           )}
         </section>
 
-        <div className="flex items-center gap-4 pt-4 border-t border-stone-200">
+        <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-stone-200">
           <button
             type="submit"
             disabled={!canSubmit}
-            className="inline-flex items-center rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-stone-800 disabled:bg-stone-300 disabled:cursor-not-allowed"
+            className="inline-flex items-center rounded-md bg-stone-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-stone-800 disabled:bg-stone-300 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-stone-700 focus:ring-offset-2"
           >
             Show my map →
           </button>
+          <button
+            type="button"
+            onClick={handleReset}
+            disabled={!isDirty}
+            className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2 text-sm text-stone-700 hover:border-stone-500 disabled:text-stone-400 disabled:hover:border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-700/40 focus:ring-offset-2"
+          >
+            Reset all
+          </button>
           {!canSubmit && (
-            <span className="text-xs text-stone-500">Enter a gross salary to continue.</span>
+            <span className="text-xs text-stone-600" role="status">
+              Enter a gross salary to continue.
+            </span>
           )}
         </div>
 
-        <p className="pt-2 text-xs text-stone-500 leading-relaxed">
+        <p className="pt-2 text-xs text-stone-600 leading-relaxed">
           These calculations are estimates based on the inputs you've provided. They don't
           account for all edge cases. If any number here would drive a significant decision,
           confirm with your payroll provider, accountant, or a financial advisor.

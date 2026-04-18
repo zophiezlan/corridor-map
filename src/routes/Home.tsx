@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { FINANCIAL_YEAR_LABEL } from '../calc/constants';
+import { useDocumentTitle } from '../components/DocumentTitle';
 
 export function Home() {
+  useDocumentTitle();
   return (
     <div className="max-w-2xl">
       <h1 className="text-4xl font-semibold tracking-tight">A tax corridor map for PBI workers.</h1>

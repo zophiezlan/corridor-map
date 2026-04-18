@@ -45,11 +45,19 @@ export function MlsDetail() {
     [],
   );
 
+  const userRatePercent =
+    derived.mlsTier === 'Base' ? 0 : MLS_THRESHOLDS_SINGLE[derived.mlsTier].rate * 100;
+  const chartAriaLabel = `Bar chart of MLS surcharge rates by income tier. You are in ${derived.mlsTier} at ${userRatePercent}% surcharge rate.`;
+
   return (
     <CorridorFrame title="MLS / Private Health" status={summary.status} headline={summary.headline}>
       <Section title="Where you are">
         <p>{summary.insight}</p>
-        <div className="mt-4 h-52 w-full rounded-md border border-stone-200 bg-white p-3">
+        <div
+          className="mt-4 h-52 w-full rounded-md border border-stone-200 bg-white p-3"
+          role="img"
+          aria-label={chartAriaLabel}
+        >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ left: 0, right: 16, top: 8, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
@@ -64,10 +72,7 @@ export function MlsDetail() {
               />
               <Bar dataKey="rate" fill="#a8a29e" radius={[3, 3, 0, 0]} />
               <ReferenceLine
-                y={(() => {
-                  const tier = derived.mlsTier;
-                  return tier === 'Base' ? 0 : MLS_THRESHOLDS_SINGLE[tier].rate * 100;
-                })()}
+                y={userRatePercent}
                 stroke="#0f172a"
                 strokeDasharray="4 2"
                 label={{
@@ -80,6 +85,9 @@ export function MlsDetail() {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        <p className="sr-only">
+          MLS surcharge rates: Base 0%, Tier 1 1%, Tier 2 1.25%, Tier 3 1.5%. You are in {derived.mlsTier} at {userRatePercent}%.
+        </p>
       </Section>
 
       <Section title="The math">

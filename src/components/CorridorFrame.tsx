@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { FINANCIAL_YEAR_LABEL } from '../calc/constants';
 import { StatusBadge } from './StatusBadge';
+import { useDocumentTitle } from './DocumentTitle';
 import type { CorridorStatus } from '../calc/types';
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export function CorridorFrame({ title, status, headline, children }: Props) {
+  useDocumentTitle(title);
   return (
     <div>
       <div className="mb-6">
