@@ -11,7 +11,7 @@ import { Money, Percent } from "../../components/Money";
 import { ProgressBar } from "../../components/ProgressBar";
 import { superCorridor } from "../../calc/corridors";
 import { superTopUpPotentialSaving } from "../../calc/calculations";
-import { useInputs } from "../../state/InputsContext";
+import { useInputs } from "../../state/useInputs";
 
 export function SuperDetail() {
   const { inputs, derived } = useInputs();

@@ -1,5 +1,5 @@
 import type { UserInputs } from "../calc/types";
-import { DEFAULT_INPUTS } from "./InputsContext";
+import { DEFAULT_INPUTS } from "./useInputs";
 
 /**
  * URL-encode/decode a scenario to a short base64url string.

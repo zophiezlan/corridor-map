@@ -1,6 +1,6 @@
 import { CorridorFrame, Section } from "../../components/CorridorFrame";
 import { fhssCorridor } from "../../calc/corridors";
-import { useInputs } from "../../state/InputsContext";
+import { useInputs } from "../../state/useInputs";
 
 export function FhssDetail() {
   const { inputs } = useInputs();

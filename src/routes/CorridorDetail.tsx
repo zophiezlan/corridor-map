@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { useInputs } from "../state/InputsContext";
+import { useInputs } from "../state/useInputs";
 import { PackagingGeneralDetail } from "./corridors/PackagingGeneralDetail";
 import { PackagingMeDetail } from "./corridors/PackagingMeDetail";
 import { SuperDetail } from "./corridors/SuperDetail";

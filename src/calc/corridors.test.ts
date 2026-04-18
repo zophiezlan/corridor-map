@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_INPUTS } from "../state/InputsContext";
+import { DEFAULT_INPUTS } from "../state/useInputs";
 import { deriveValues } from "./calculations";
 import {
   allCorridors,

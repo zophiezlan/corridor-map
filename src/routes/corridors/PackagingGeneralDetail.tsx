@@ -12,7 +12,7 @@ import { Money, Percent } from "../../components/Money";
 import { ProgressBar } from "../../components/ProgressBar";
 import { generalPackagingCorridor } from "../../calc/corridors";
 import { packagingPotentialSaving } from "../../calc/calculations";
-import { useInputs } from "../../state/InputsContext";
+import { useInputs } from "../../state/useInputs";
 
 export function PackagingGeneralDetail() {
   const { inputs, derived } = useInputs();

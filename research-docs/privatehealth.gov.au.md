@@ -1,3 +1,5 @@
+# privatehealth.com.au Information Document
+
 ## What is covered by private health insurance?
 
 Private health insurance cover is generally divided into [hospital cover](https://www.privatehealth.gov.au/health_insurance/what_is_covered/privatehealth.htm#hospital "Hospital"), [general treatment cover](https://www.privatehealth.gov.au/health_insurance/what_is_covered/privatehealth.htm#general "General Treatment") (also known as ancillary or extras cover) and [ambulance cover](https://www.privatehealth.gov.au/health_insurance/what_is_covered/privatehealth.htm#ambulance "Ambulance"). Ambulance cover may be available separately, combined with other policies, or in some cases is covered by your state government.
@@ -56,7 +58,7 @@ General treatment cover (also called ancillary cover or extras cover) provides i
 
 For more about General treatment cover, see [Private Health Insurance Basics](https://www.privatehealth.gov.au/health_insurance/howitworks/index.htm "Private Health Insurance Basics").
 
-#### What may not be covered?
+#### What services may not be covered?
 
 Nearly all services covered under general treatment are only covered to a limited extent. There are various limits that may apply, for example a limit per service, per year, or lifetime limits. Some services may not be covered at all.
 
@@ -187,7 +189,7 @@ Insurers can choose whether their age-based discounted products honour existing 
 
 If you are on a couple or family policy, your discount is calculated as an average between the individual discount of the two adults. For example, if one person has a 10% discount and the other person has a 6% discount, the total discount applied to the policy is 8%.
 
-\* *as a transitional arrangement for existing policy holders, their age when their insurer first introduces age-based discounts to their product. For example, a consumer who is 28 on 1 April 2019 could receive a 4 per cent discount, even if they first purchased hospital insurance when they were 26 years old.*
+_As a transitional arrangement for existing policy holders, their age when their insurer first introduces age-based discounts to their product. For example, a consumer who is 28 on 1 April 2019 could receive a 4 per cent discount, even if they first purchased hospital insurance when they were 26 years old._
 
 #### How is the discount phased out?
 
@@ -221,34 +223,34 @@ The income thresholds and surcharges that apply for **1 July 2026** to **30 J
 
 _Single parents and couples (including de facto couples) are subject to family tiers. For families with children, the thresholds are increased by $1,500 for each child after the first._
 
-#### For the 2026-27 financial year, you have to pay the surcharge if you are
+### For the 2026-27 financial year, you have to pay the surcharge if you are
 
 - a single person with an annual taxable income for MLS purposes greater than $101,000; or
 - a family or couple with a combined taxable income for MLS purposes greater than $202,000. The family income threshold increases by $1,500 for each dependent child after the first;
 - and do not have an approved hospital cover with a registered health insurer.
 
-##### Cover for dependents
+#### Cover for dependents
 
 If you are a family with a combined income above the family income threshold, you must hold hospital cover for you, your partner, and your dependents to avoid the surcharge. If your partner or one of your dependents is not covered, you will pay the surcharge.
 
-##### Adult dependents
+#### Adult dependents
 
 A person over the age of 21 who is not a full-time student is not considered a dependent for MLS purposes. A person who is covered as a dependent aged over 21 on a family hospital policy, who also earns over the MLS income threshold, is liable to pay the MLS. To be exempt from the MLS, the person needs to take a hospital policy for themselves.
 
-##### Cover for part of the year and suspension of cover
+#### Cover for part of the year and suspension of cover
 
 If you have held hospital cover for part of the year, then you will have a partial exemption from the MLS. You will have to pay the surcharge to account for the days that which you did not hold hospital cover.
 
 If you hold hospital cover but temporarily suspended payments for that cover (for example, to travel overseas), then you are not exempt during the suspended period and you will have to pay the surcharge for the suspended days.
 
-#### You must meet one of the following requirements to avoid the Medicare Levy Surcharge
+### You must meet one of the following requirements to avoid the Medicare Levy Surcharge
 
 - your taxable income for MLS purposes is below the income threshold (see above),
 - your taxable income for MLS purposes is over the income threshold and you have approved hospital insurance (see below) for you and all of your dependents with a registered health insurer. From 1 April 2019, the total yearly front-end deductible or excess on the policy can be no greater than $750 for singles and $1,500 for families/couples. (Prior to 1 April 2019, the maximum deductible or excess was $500 for singles or $1,000 for families/couples.)
 - you are normally exempt from the Medicare levy because you are a prescribed person and you do not have any dependents. Your income level is not considered in this case,
 - you are a high-income earner who had already purchased a hospital insurance product with a total yearly front-end deductible or excess greater than $500 for singles or $1,000 for families/couples, on or before 24 May 2000. In this case you will continue to be exempt from the surcharge as long as you maintain continuous membership under the same hospital treatment policy.
 
-##### What is 'approved hospital insurance' for surcharge purposes?
+#### What is 'approved hospital insurance' for surcharge purposes?
 
 To be exempt from the surcharge, your hospital cover must be held with a [registered health insurer](https://www.privatehealth.gov.au/healthinsurers/index.htm "Health Funds") and cover some or all of the fees and charges for a stay in hospital.
 
@@ -260,7 +262,7 @@ The following types of health insurance **do not** provide an exemption:
 - Overseas Visitors Cover or Overseas Student Health Cover; or
 - Cover held with non-registered insurers, such as international insurers.
 
-##### I have reciprocal Medicare benefits and earn over the surcharge threshold. How do I avoid the surcharge?
+#### I have reciprocal Medicare benefits and earn over the surcharge threshold. How do I avoid the surcharge?
 
 If you are from a country with a [reciprocal healthcare agreement](https://www.humanservices.gov.au/individuals/services/medicare/reciprocal-health-care-agreements/when-you-visit-australia "Link - Medicare Healthcare for visitors to Australia") with Australia, and you earn over the surcharge threshold, then you can avoid the surcharge by purchasing an approved hospital insurance policy.
 

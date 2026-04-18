@@ -6,7 +6,7 @@ import { useDocumentTitle } from "../components/DocumentTitle";
 import { Money } from "../components/Money";
 import { Term } from "../components/Glossary";
 import { allCorridors } from "../calc/corridors";
-import { useInputs } from "../state/InputsContext";
+import { useInputs } from "../state/useInputs";
 import { buildShareUrl, decodeInputs } from "../state/shareLink";
 
 export function Map() {

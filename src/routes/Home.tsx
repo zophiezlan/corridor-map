@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FINANCIAL_YEAR_LABEL } from "../calc/constants";
 import { useDocumentTitle } from "../components/DocumentTitle";
-import { useInputs } from "../state/InputsContext";
+import { useInputs } from "../state/useInputs";
 import { PRESETS } from "../state/presets";
 
 export function Home() {

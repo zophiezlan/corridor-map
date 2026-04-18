@@ -20,7 +20,7 @@ import {
 } from "../../components/CorridorFrame";
 import { Money, Percent } from "../../components/Money";
 import { mlsCorridor } from "../../calc/corridors";
-import { useInputs } from "../../state/InputsContext";
+import { useInputs } from "../../state/useInputs";
 import { formatAUD } from "../../calc/calculations";
 
 export function MlsDetail() {

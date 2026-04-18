@@ -251,7 +251,7 @@ function getCurrentPhiRebateRates(asOf: Date = new Date()) {
 
 ### Step 1: Taxable income
 
-```
+```text
 taxableIncome = grossAnnualSalary - (currentGeneralPackaging + currentMEPackaging)
 ```
 
@@ -259,7 +259,7 @@ taxableIncome = grossAnnualSalary - (currentGeneralPackaging + currentMEPackagin
 
 Only applies if employer is PBI or Public Hospital:
 
-```
+```text
 rfba = (currentGeneralPackaging + currentMEPackaging) × PBI_GROSSUP_FACTOR
 ```
 
@@ -269,7 +269,7 @@ rfba = (currentGeneralPackaging + currentMEPackaging) × PBI_GROSSUP_FACTOR
 
 Per ATO definition:
 
-```
+```text
 mlsIncome =
   taxableIncome
   + rfba
@@ -281,7 +281,7 @@ mlsIncome =
 
 For the typical V1 user (no investment losses, no personal deductible super contributions):
 
-```
+```text
 mlsIncome = taxableIncome + rfba + currentSuperSacrifice
 ```
 
@@ -291,7 +291,7 @@ Lookup `mlsIncome` against `MLS_THRESHOLDS_SINGLE` to determine the tier rate.
 
 If no private hospital cover:
 
-```
+```text
 mlsLiabilityAnnual = mlsIncome × tierRate
 ```
 
@@ -307,7 +307,7 @@ Lookup taxable income against `TAX_BRACKETS`, add Medicare levy (2%), add STSL r
 
 ### Step 7: Utilisation calcs
 
-```
+```text
 generalPackagingUtilisation = currentGeneralPackaging / cap (based on employerType)
 mePackagingUtilisation = currentMEPackaging / mePackagingCap
 concessionalCapRemaining = CONCESSIONAL_CAP - (grossSalary × SG_RATE) - currentSuperSacrifice
@@ -319,7 +319,7 @@ concessionalCapRemaining = CONCESSIONAL_CAP - (grossSalary × SG_RATE) - current
 
 ### Page structure
 
-```
+```text
 / (home) — Intro + "Start the map" button
 /inputs — Single-page form collecting user inputs (progressive disclosure)
 /map — The corridor map dashboard
@@ -359,15 +359,15 @@ Layout: grid of "corridor cards." Each card shows:
 
 **Described corridors (no math, just context):**
 
-5. **First Home Super Saver Scheme (FHSS)**
+1. **First Home Super Saver Scheme (FHSS)**
    - Shows: description, who it's for, example math, "ask your advisor" prompt
    - Only surfaces prominently if user set property goal as "within-12m" or "1-3y"
 
-6. **Work-related deductions**
+2. **Work-related deductions**
    - Shows: list of common deductible categories (union, WFH, memberships, donations)
    - No user input needed — just a checklist reminder
 
-7. **HECS/STSL optimisation**
+3. **HECS/STSL optimisation**
    - Shows: current repayment income estimate, note on voluntary repayments (no discount, so don't bother unless strategic reason)
 
 ### Corridor detail page

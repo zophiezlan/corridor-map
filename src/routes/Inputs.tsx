@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Field, NumberInput, Select, Toggle } from "../components/Fields";
 import { useDocumentTitle } from "../components/DocumentTitle";
-import { useInputs, DEFAULT_INPUTS } from "../state/InputsContext";
+import { useInputs, DEFAULT_INPUTS } from "../state/useInputs";
 import type { EmployerType } from "../calc/constants";
 import type {
   PremiumPeriod,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { decodeInputs, encodeInputs } from "./shareLink";
-import { DEFAULT_INPUTS } from "./InputsContext";
+import { DEFAULT_INPUTS } from "./useInputs";
 import type { UserInputs } from "../calc/types";
 
 function full(overrides: Partial<UserInputs> = {}): UserInputs {

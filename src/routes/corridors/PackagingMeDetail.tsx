@@ -7,7 +7,7 @@ import { Money, Percent } from "../../components/Money";
 import { ProgressBar } from "../../components/ProgressBar";
 import { mePackagingCorridor } from "../../calc/corridors";
 import { mePackagingPotentialSaving } from "../../calc/calculations";
-import { useInputs } from "../../state/InputsContext";
+import { useInputs } from "../../state/useInputs";
 
 export function PackagingMeDetail() {
   const { inputs, derived } = useInputs();

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { CorridorCardSummary } from "../calc/types";
-import { StatusBadge, statusDotClass } from "./StatusBadge";
+import { StatusBadge } from "./StatusBadge";
+import { statusDotClass } from "./statusStyles";
 
 export function CorridorCard({ summary }: { summary: CorridorCardSummary }) {
   const dim = summary.status === "grey";
