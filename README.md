@@ -150,7 +150,7 @@ V1 targets **FY 2025-26 (1 July 2025 – 30 June 2026)**.
 
 PHI rebate rates change every 1 April. Both halves of FY25-26 are baked in; the applicable rate is picked at calculation time based on the system date.
 
-Annual update checklist is in [corridor-map-spec.md §13](corridor-map-spec.md#13-maintenance-touchpoints).
+Annual update checklist is in [SPEC.md §13](SPEC.md#13-maintenance-touchpoints).
 
 ---
 
